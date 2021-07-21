@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0"
+            prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ucf.assignments.FrontPageController">
+    <Button layoutX="345.0" layoutY="481.0" mnemonicParsing="false" onAction="#ExitPressed" prefHeight="102.0"
+            prefWidth="161.0" text="EXIT" textFill="#f50000">
+        <font>
+          <Font size="48.0"/>
+        </font>
+    </Button>
+    <Button layoutX="593.0" layoutY="481.0" mnemonicParsing="false" onAction="#DisplayPressed" prefHeight="102.0"
+            prefWidth="243.0" text="DISPLAY" textFill="#00f50e">
+        <font>
+          <Font size="48.0"/>
+        </font>
+    </Button>
+    <Button layoutX="14.0" layoutY="481.0" mnemonicParsing="false" onAction="#HelpPressed" prefHeight="102.0"
+            prefWidth="243.0" text="HELP" textFill="#3e2e87">
+        <font>
+          <Font size="48.0"/>
+        </font>
+    </Button>
+    <ListView fx:id="ListViewValue" editable="true" layoutX="14.0" layoutY="243.0" prefHeight="225.0"
+              prefWidth="209.0"/>
+    <TextField editable="false" layoutX="14.0" layoutY="213.0" prefHeight="25.0" prefWidth="209.0" text="ITEM VALUE">
+        <font>
+          <Font name="System Bold" size="14.0"/>
+        </font>
+    </TextField>
+    <TextField editable="false" layoutX="575.0" layoutY="213.0" prefHeight="30.0" prefWidth="261.0" text="ITEM NAME">
+        <font>
+          <Font name="System Bold" size="14.0"/>
+        </font>
+    </TextField>
+    <TextField editable="false" layoutX="223.0" layoutY="213.0" prefHeight="30.0" prefWidth="352.0"
+               text="ITEM SERIAL NUMBER">
+        <font>
+          <Font name="System Bold" size="14.0"/>
+        </font>
+    </TextField>
+    <ListView fx:id="ListViewSerial" editable="true" layoutX="223.0" layoutY="243.0" prefHeight="225.0"
+              prefWidth="352.0"/>
+    <ListView fx:id="ListViewName" editable="true" layoutX="575.0" layoutY="243.0" prefHeight="225.0"
+              prefWidth="261.0"/>
+    <SplitMenuButton fx:id="OptionsMenu" layoutX="304.0" layoutY="110.0" mnemonicParsing="false" prefHeight="51.0"
+                     prefWidth="191.0" text="OPTIONS" textAlignment="CENTER">
+      <items>
+          <MenuItem fx:id="Add" mnemonicParsing="false" onAction="#AddItemPressed" text="Add an Item"/>
+          <MenuItem fx:id="Remove" mnemonicParsing="false" onAction="#RemoveItemPressed" text="Remove an Item"/>
+          <MenuItem fx:id="Edit" mnemonicParsing="false" onAction="#EditItemPressed" text="Edit an Item"/>
+          <MenuItem fx:id="SortByValue" mnemonicParsing="false" onAction="#SortValuePressed" text="Sort by Value"/>
+          <MenuItem fx:id="SortByName" mnemonicParsing="false" onAction="#SortName" text="Sort by Name"/>
+          <MenuItem fx:id="SortBySerial" mnemonicParsing="false" onAction="#SortSerial" text="Sort by Serial Number"/>
+          <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#SavePressed" text="Save List"/>
+          <MenuItem fx:id="Load" mnemonicParsing="false" onAction="#LoadPressed" text="Load List"/>
+      </items>
+        <font>
+          <Font size="24.0"/>
+        </font>
+    </SplitMenuButton>
+
+</AnchorPane>

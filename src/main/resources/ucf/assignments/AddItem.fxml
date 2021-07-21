@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.AddItemController">
+   <children>
+      <Button fx:id="AddButton" layoutX="222.0" layoutY="324.0" mnemonicParsing="false" onAction="#AddPressed" prefHeight="62.0" prefWidth="156.0" text="ADD ITEM">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <TextField fx:id="ItemName" layoutX="14.0" layoutY="225.0" onAction="#ItemNameEntered" text="Item Name Here" />
+      <TextField fx:id="ItemValue" layoutX="226.0" layoutY="225.0" onAction="#ItemValueEntered" text="Item Value Here" />
+      <TextField fx:id="ItemSerial" layoutX="437.0" layoutY="225.0" onAction="#ItemSerialEntered" text="Item Serial Number Here" />
+      <TextArea fx:id="ShowItemStatus" editable="false" layoutX="15.0" layoutY="83.0" prefHeight="62.0" prefWidth="571.0" text="    Press add once you are finished adding the details of your item">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="DoneButton" layoutX="444.0" layoutY="324.0" mnemonicParsing="false" onAction="#DonePressed" prefHeight="62.0" prefWidth="136.0" text="DONE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

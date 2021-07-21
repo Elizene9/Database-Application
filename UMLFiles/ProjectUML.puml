@@ -1,0 +1,88 @@
+@startuml
+'https://plantuml.com/class-diagram
+
++class FrontPage {
+    +main(args : String[])
+    +start(primaryStage : Stage)
+
+}
+
++class FrontPageController {
+
+    +names : List<String>
+    +serials : List<String>
+    +values : List<String>
+    +namesSorted : List<String>
+    +serialsSorted : List<String>
+    +valuesSorted : List<String>
+    +OptionsMenu : SplitMenuButton
+    +Add : MenuItem
+    +Remove : MenuItem
+    +Edit : MenuItem
+    +SortByValue : MenuItem
+    +SortByName : MenuItem
+    +SortBySerial : MenuItem
+    +Load : MenuItem
+    +Save : MenuItem
+    +ListViewName : ListView<String>
+    +ListViewValue : ListView<String>
+    +ListViewSerial : ListView<String>
+    +ExitPressed
+    +DisplayPressed
+    +HelpPressed
+    +AddItemPressed
+    +RemoveItemPressed
+    +EditItemPressed
+    +SortValuePressed
+    +SortNamePressed
+    +SortSerialPressed
+    +SavePressed
+    +LoadPressed
+}
+
++class MultipleScenes {
+     +MultipleScenes(file : String, name : ViewScenes)
+}
+
++enum ViewScenes{
+    FrontPage
+    AddItem
+    +file : String
+    +getFile : String
+}
+
++class ChangeScenes {
+    +scene : Scene
+    +root : Parent
+    +stageScene(scene : Scene)
+    +Change(view : ViewScenes)
+}
+
++class AddItemController {
+
+    +DoneButton : Button
+    +ItemName : TextField
+    +ItemValue : TextField
+    +ItemSerial : TextField
+    +ShowItemStatus : TextArea
+    +checkValue : Double
+    +valueCheck : Boolean
+    +nameCheck : Boolean
+    +serialCheck : Boolean
+    +serial : char[]
+    +AddPressed
+    +ItemNameEntered
+    +ItemValueEntered
+    +ItemSerialEntered
+    +DonePressed
+}
+javafx.Application <|-- FrontPage
+FrontPageController o--> FrontPage
+AddItemController o--> FrontPageController
+FrontPage <|-- MultipleScenes
+ChangeScenes o--> FrontPageController
+FrontPage <|-- ViewScenes
+
+
+
+@enduml
