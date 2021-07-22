@@ -27,28 +27,29 @@
     +ListViewName : ListView<String>
     +ListViewValue : ListView<String>
     +ListViewSerial : ListView<String>
-    +ExitPressed
-    +DisplayPressed
-    +HelpPressed
-    +AddItemPressed
-    +RemoveItemPressed
-    +EditItemPressed
-    +SortValuePressed
-    +SortNamePressed
-    +SortSerialPressed
-    +SavePressed
-    +LoadPressed
+    +AllItems : SplitMenuButton
+    +ExitPressed()
+    +DisplayPressed()
+    +HelpPressed()
+    +AddItemPressed()
+    +ShowListItems()
+    +EditItemPressed()
+    +SortValuePressed()
+    +SortNamePressed()
+    +SortSerialPressed()
+    +SavePressed()
+    +LoadPressed()
 }
 
 +class MultipleScenes {
-     +MultipleScenes(file : String, name : ViewScenes)
+     +MultipleScenes(name : ViewScenes)
 }
 
 +enum ViewScenes{
     FrontPage
     AddItem
     +file : String
-    +getFile : String
+    +getFile() : String
 }
 
 +class ChangeScenes {
@@ -70,11 +71,11 @@
     +nameCheck : Boolean
     +serialCheck : Boolean
     +serial : char[]
-    +AddPressed
-    +ItemNameEntered
-    +ItemValueEntered
-    +ItemSerialEntered
-    +DonePressed
+    +AddPressed()
+    +ItemNameEntered()
+    +ItemValueEntered()
+    +ItemSerialEntered()
+    +DonePressed()
 }
 javafx.Application <|-- FrontPage
 FrontPageController o--> FrontPage

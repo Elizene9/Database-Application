@@ -1,5 +1,6 @@
 package ucf.assignments;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,7 +17,7 @@ public class FrontPageController {
     public static List<String> namesSorted = new ArrayList<>();
     public static List<String> serialsSorted = new ArrayList<>();
     public static List<String> valuesSorted = new ArrayList<>();
-
+    public List<String> remove = new ArrayList<>();
     // FXML controls to be accessed
     @FXML
     public SplitMenuButton OptionsMenu = new SplitMenuButton();
@@ -36,6 +37,7 @@ public class FrontPageController {
     public MenuItem Save = new MenuItem();
     @FXML
     public MenuItem Load = new MenuItem();
+    @FXML public SplitMenuButton AllItems = new SplitMenuButton();
 
     @FXML
     public ListView<String> ListViewName = new ListView<>();
@@ -66,12 +68,7 @@ public class FrontPageController {
 
     // Load new add item window when pressed
     public void AddItemPressed() throws IOException {
-        new MultipleScenes("/ucf.assignments.AddItem.fxml", ViewScenes.AddItem);
-    }
-
-    // Load new remove item window when pressed
-    public void RemoveItemPressed() {
-        
+        new MultipleScenes(ViewScenes.AddItem);
     }
 
     // Load new edit item window when pressed
@@ -84,7 +81,7 @@ public class FrontPageController {
         for (int x = 0; x < values.size(); x++) {
 
             for (int y = 0; y < values.size(); y++) {
-                if (values.get(y).equals(valuesSorted.get(x))) {
+                if (values.get(y).equals(valuesSorted.get(x)) && !serials.get(y).equals(serials.get(x))) {
 
                     namesSorted.set(x, names.get(y));
                     serialsSorted.set(x, serials.get(y));
@@ -106,7 +103,7 @@ public class FrontPageController {
         for (int x = 0; x < names.size(); x++) {
 
             for (int y = 0; y < names.size(); y++) {
-                if (names.get(y).equals(namesSorted.get(x))) {
+                if (names.get(y).equals(namesSorted.get(x)) && !serials.get(y).equals(serials.get(x))) {
 
                     valuesSorted.set(x, values.get(y));
                     serialsSorted.set(x, serials.get(y));
@@ -148,5 +145,45 @@ public class FrontPageController {
 
     // Opens load window
     public void LoadPressed() {
+    }
+
+    // Shows all items and removes them upon a click
+    public void ShowListItems() {
+
+    remove.clear();
+        for (int z = 0; z < namesSorted.size(); z++) {
+
+            MenuItem element = new MenuItem();
+            remove.add(namesSorted.get(z) + ": " + serialsSorted.get(z));
+            element.setText(remove.get(z));
+            element.setOnAction((event -> {
+                for (int j = 0; j < namesSorted.size(); j++) {
+                    if (element.getText().equals(names.get(j) + ": " + serials.get(j)) && element.getText().equals(namesSorted.get(j) + ": " + serialsSorted.get(j))) {
+                        names.remove(j);
+                        serials.remove(j);
+                        values.remove(j);
+                        namesSorted.remove(j);
+                        valuesSorted.remove(j);
+                        serialsSorted.remove(j);
+                    }
+
+                    else if (element.getText().equals(namesSorted.get(j) + ": " + serialsSorted.get(j)) && !element.getText().equals(names.get(j) + ": " + serials.get(j))) {
+                        namesSorted.remove(j);
+                        valuesSorted.remove(j);
+                        serialsSorted.remove(j);
+                    }
+
+                    else if (!element.getText().equals(namesSorted.get(j) + ": " + serialsSorted.get(j)) && element.getText().equals(names.get(j) + ": " + serials.get(j))) {
+                        names.remove(j);
+                        values.remove(j);
+                        serials.remove(j);
+                    }
+                }
+                AllItems.getItems().remove(element);
+            }));
+            AllItems.getItems().add(element);
+
+        }
+
     }
 }
