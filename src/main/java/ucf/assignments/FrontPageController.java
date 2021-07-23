@@ -17,7 +17,7 @@ public class FrontPageController {
     public static List<String> namesSorted = new ArrayList<>();
     public static List<String> serialsSorted = new ArrayList<>();
     public static List<String> valuesSorted = new ArrayList<>();
-    public List<String> remove = new ArrayList<>();
+    public static List<String> remove = new ArrayList<>();
     // FXML controls to be accessed
     @FXML
     public SplitMenuButton OptionsMenu = new SplitMenuButton();
@@ -51,16 +51,6 @@ public class FrontPageController {
         System.exit(0);
     }
 
-    // Displays unsorted list in order of the time items were added
-    public void DisplayPressed() {
-        ListViewValue.getItems().clear();
-        ListViewSerial.getItems().clear();
-        ListViewName.getItems().clear();
-        ListViewName.getItems().addAll(names);
-        ListViewSerial.getItems().addAll(serials);
-        ListViewValue.getItems().addAll(values);
-    }
-
     // Shows user how to use app on click
     public void HelpPressed()  {
 
@@ -69,28 +59,29 @@ public class FrontPageController {
     // Load new add item window when pressed
     public void AddItemPressed() throws IOException {
         new MultipleScenes(ViewScenes.AddItem);
+
     }
 
     // Load new edit item window when pressed
-    public void EditItemPressed() {
+    public void EditItemPressed() throws IOException {
+        new MultipleScenes((ViewScenes.EditItem));
     }
 
     // Sorts list by value and prints it
     public void SortValuePressed() {
+        ListViewValue.getItems().clear();
+        ListViewSerial.getItems().clear();
+        ListViewName.getItems().clear();
+
         Collections.sort(valuesSorted);
         for (int x = 0; x < values.size(); x++) {
-
             for (int y = 0; y < values.size(); y++) {
                 if (values.get(y).equals(valuesSorted.get(x)) && !serials.get(y).equals(serials.get(x))) {
-
                     namesSorted.set(x, names.get(y));
                     serialsSorted.set(x, serials.get(y));
                 }
             }
         }
-        ListViewValue.getItems().clear();
-        ListViewSerial.getItems().clear();
-        ListViewName.getItems().clear();
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
         ListViewValue.getItems().addAll(valuesSorted);
@@ -98,7 +89,9 @@ public class FrontPageController {
 
     // Sorts list by name and prints
     public void SortName() {
-
+        ListViewValue.getItems().clear();
+        ListViewSerial.getItems().clear();
+        ListViewName.getItems().clear();
         Collections.sort(namesSorted);
         for (int x = 0; x < names.size(); x++) {
 
@@ -110,9 +103,7 @@ public class FrontPageController {
                 }
             }
         }
-        ListViewValue.getItems().clear();
-        ListViewSerial.getItems().clear();
-        ListViewName.getItems().clear();
+
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
         ListViewValue.getItems().addAll(valuesSorted);
@@ -120,20 +111,20 @@ public class FrontPageController {
 
     // Sorts list by serial number and prints
     public void SortSerial() {
+        ListViewValue.getItems().clear();
+        ListViewSerial.getItems().clear();
+        ListViewName.getItems().clear();
+
         Collections.sort(serialsSorted);
         for (int x = 0; x < serials.size(); x++) {
-
             for (int y = 0; y < serials.size(); y++) {
                 if (serials.get(y).equals(serialsSorted.get(x))) {
-
                     valuesSorted.set(x, values.get(y));
                     namesSorted.set(x, names.get(y));
                 }
             }
         }
-        ListViewValue.getItems().clear();
-        ListViewSerial.getItems().clear();
-        ListViewName.getItems().clear();
+
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
         ListViewValue.getItems().addAll(valuesSorted);
@@ -149,8 +140,8 @@ public class FrontPageController {
 
     // Shows all items and removes them upon a click
     public void ShowListItems() {
-
-    remove.clear();
+        AllItems.getItems().clear();
+        remove.clear();
         for (int z = 0; z < namesSorted.size(); z++) {
 
             MenuItem element = new MenuItem();

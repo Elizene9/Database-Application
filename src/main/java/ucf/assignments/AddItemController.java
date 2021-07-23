@@ -20,7 +20,7 @@ public class AddItemController {
     Double checkValue;
 
     // Booleans check if user entry data is valid
-    Boolean serialCheck, nameCheck, valueCheck;
+    boolean serialCheck = true, nameCheck, valueCheck, serialEntry = false, nameEntry = false, valueEntry = false;
 
     // Stores serial number entered and checks if it is a valid 10 character unique number
     char[] serial;
@@ -29,13 +29,16 @@ public class AddItemController {
     public void AddPressed() {
 
         // Add item to list if all booleans are true and valid data has been entered
-        if (serialCheck && nameCheck && valueCheck) {
+        if (serialCheck && nameCheck && valueCheck && serialEntry && nameEntry && valueEntry) {
             FrontPageController.serials.add(ItemSerial.getText());
             FrontPageController.serialsSorted.add(ItemSerial.getText());
             FrontPageController.names.add(ItemName.getText());
             FrontPageController.namesSorted.add(ItemName.getText());
             FrontPageController.values.add("$" + ItemValue.getText());
             FrontPageController.valuesSorted.add("$" + ItemValue.getText());
+            serialEntry = false;
+            nameEntry = false;
+            valueEntry = false;
         }
 
         // Display error message if user tries to add item with invalid input
@@ -49,6 +52,8 @@ public class AddItemController {
 
     // Checks if name entry is valid
     public void ItemNameEntered() {
+        System.out.println("NAME");
+        nameEntry = true;
         nameCheck = true;
 
         // Check if item name length is valid
@@ -70,7 +75,8 @@ public class AddItemController {
 
     // Checks if value entry is valid
     public void ItemValueEntered() {
-
+        System.out.println("VALUE");
+        valueEntry = true;
         valueCheck = true;
 
         // Check if user entered valid numeric value
@@ -97,8 +103,10 @@ public class AddItemController {
 
     // Checks if serial number entry is valid
     public void ItemSerialEntered() {
-        serial = ItemSerial.getText().toCharArray();
+        System.out.println("SERIAL");
         serialCheck = true;
+        serialEntry = true;
+        serial = ItemSerial.getText().toCharArray();
 
         // Checks if serial number is already in use
         for (int i = 0; i < FrontPageController.serials.size(); i++) {
@@ -138,7 +146,11 @@ public class AddItemController {
     public void DonePressed() {
         // Get rid of any error items and exit window
         ShowItemStatus.setText("    Press add once you are finished adding the details of your item");
+        FrontPageController.remove.clear();
+        for (int z = 0; z < FrontPageController.namesSorted.size(); z++) {
 
+            FrontPageController.remove.add(FrontPageController.names.get(z) + ": " + FrontPageController.serials.get(z));
+        }
         Stage stage = (Stage) DoneButton.getScene().getWindow();
         stage.close();
     }

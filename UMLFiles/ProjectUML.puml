@@ -76,9 +76,44 @@
     +ItemValueEntered()
     +ItemSerialEntered()
     +DonePressed()
+    +nameEntry : boolean;
+    +valueEntry : boolean
+    +serialEntry : boolean
+}
+
++class EditItemController {
+
+    +DoneButton : Button
+    +EditName : TextField
+    +EditValue : TextField
+    +EditSerial : TextField
+    +ShowItemStatus : TextArea
+    +AllItems : SplitMenuButton
+    +counter : int
+    +sort : int
+    +temp : String
+    +serialCheck : boolean
+    +nameCheck : boolean
+    +valueCheck : boolean
+    +serialEdit : boolean
+    +nameEdit : boolean
+    +valueEdit : boolean
+    +serialEntry : boolean
+    +nameEntry : boolean
+    +valueEntry : boolean
+    +checkValue : double
+    +serial : char[]
+    +ItemNameEntered
+    +ItemSerialEntered
+    +ItemValueEntered
+    +DonePressed
+    +EditPressed
+    +ViewAllItems
+    +SetItems
 }
 javafx.Application <|-- FrontPage
 FrontPageController o--> FrontPage
+EditItemController o--> FrontPageController
 AddItemController o--> FrontPageController
 FrontPage <|-- MultipleScenes
 ChangeScenes o--> FrontPageController

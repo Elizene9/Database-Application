@@ -10,7 +10,7 @@
           <Font size="48.0" />
         </font>
     </Button>
-    <Button layoutX="593.0" layoutY="481.0" mnemonicParsing="false" onAction="#DisplayPressed" prefHeight="102.0" prefWidth="243.0" text="DISPLAY" textFill="#00f50e">
+    <Button layoutX="593.0" layoutY="481.0" mnemonicParsing="false" onAction="#SortName" prefHeight="102.0" prefWidth="243.0" text="DISPLAY" textFill="#00f50e">
         <font>
           <Font size="48.0" />
         </font>
