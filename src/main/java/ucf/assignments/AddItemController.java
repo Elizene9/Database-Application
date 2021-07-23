@@ -52,7 +52,6 @@ public class AddItemController {
 
     // Checks if name entry is valid
     public void ItemNameEntered() {
-        System.out.println("NAME");
         nameEntry = true;
         nameCheck = true;
 
@@ -75,7 +74,6 @@ public class AddItemController {
 
     // Checks if value entry is valid
     public void ItemValueEntered() {
-        System.out.println("VALUE");
         valueEntry = true;
         valueCheck = true;
 
@@ -103,7 +101,6 @@ public class AddItemController {
 
     // Checks if serial number entry is valid
     public void ItemSerialEntered() {
-        System.out.println("SERIAL");
         serialCheck = true;
         serialEntry = true;
         serial = ItemSerial.getText().toCharArray();

@@ -9,6 +9,11 @@
 
 +class FrontPageController {
 
+    writer : PrintWriter
+    dir : FileChooser
+    fileName : String
+    stage : Stage
+    userFile : File
     +names : List<String>
     +serials : List<String>
     +values : List<String>

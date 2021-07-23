@@ -4,7 +4,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 // This class allows all other pages of app to be loaded from buttons on front page
@@ -38,6 +45,12 @@ public class FrontPageController {
     @FXML
     public MenuItem Load = new MenuItem();
     @FXML public SplitMenuButton AllItems = new SplitMenuButton();
+
+    Stage stage = new Stage();
+    String fileName;
+    FileChooser dir = new FileChooser();
+    PrintWriter writer;
+    File userFile;
 
     @FXML
     public ListView<String> ListViewName = new ListView<>();
@@ -131,11 +144,30 @@ public class FrontPageController {
     }
 
     // Opens save window
-    public void SavePressed() {
+    public void SavePressed() throws IOException {
+        dir.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("Html Files", "*.htm"));
+
+        userFile = dir.showSaveDialog(stage);
+        fileName = userFile.getName();
+        //myFile = new File((u))
+
+        writer = new PrintWriter(userFile);
+        writer.println("Value\tSerial Number\tName\n");
+        for (int i = 0; i < namesSorted.size(); i++) {
+
+            writer.write(valuesSorted.get(i) + "\t" + serialsSorted.get(i) + "\t" +namesSorted.get(i) + "\n");
+
+        }
+        writer.close();
+
     }
 
     // Opens load window
-    public void LoadPressed() {
+    public void LoadPressed() throws IOException {
+        System.out.println(fileName);
+
     }
 
     // Shows all items and removes them upon a click
