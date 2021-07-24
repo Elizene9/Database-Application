@@ -1,15 +1,11 @@
 package ucf.assignments;
 
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -86,14 +82,22 @@ public class FrontPageController {
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
 
+        int[] index = new int[valuesSorted.size()];
+
         Collections.sort(valuesSorted);
-        for (int x = 0; x < values.size(); x++) {
-            for (int y = 0; y < values.size(); y++) {
-                if (values.get(y).equals(valuesSorted.get(x)) && !serials.get(y).equals(serials.get(x))) {
-                    namesSorted.set(x, names.get(y));
-                    serialsSorted.set(x, serials.get(y));
-                }
+        for (int i = 0; i < valuesSorted.size(); i++) {
+
+            for (int p = 0; p < valuesSorted.size(); p++) {
+
+                if (valuesSorted.get(i).equals(values.get(p)))
+                    index[i] = p;
+
             }
+        }
+        for (int x = 0; x < values.size(); x++) {
+
+            namesSorted.set(x, names.get(index[x]));
+            serialsSorted.set(x, serials.get(index[x]));
         }
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
@@ -105,16 +109,22 @@ public class FrontPageController {
         ListViewValue.getItems().clear();
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
+
+        int[] index = new int[namesSorted.size()];
+
         Collections.sort(namesSorted);
-        for (int x = 0; x < names.size(); x++) {
+        for (int i = 0; i < namesSorted.size(); i++) {
 
-            for (int y = 0; y < names.size(); y++) {
-                if (names.get(y).equals(namesSorted.get(x)) && !serials.get(y).equals(serials.get(x))) {
+            for (int p = 0; p < namesSorted.size(); p++) {
 
-                    valuesSorted.set(x, values.get(y));
-                    serialsSorted.set(x, serials.get(y));
-                }
+                if (namesSorted.get(i).equals(names.get(p)))
+                    index[i] = p;
+
             }
+        }
+        for (int x = 0; x < names.size(); x++) {
+            valuesSorted.set(x, values.get(index[x]));
+            serialsSorted.set(x, serials.get(index[x]));
         }
 
         ListViewName.getItems().addAll(namesSorted);
@@ -128,14 +138,22 @@ public class FrontPageController {
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
 
+        int[] index = new int[serialsSorted.size()];
+
         Collections.sort(serialsSorted);
-        for (int x = 0; x < serials.size(); x++) {
-            for (int y = 0; y < serials.size(); y++) {
-                if (serials.get(y).equals(serialsSorted.get(x))) {
-                    valuesSorted.set(x, values.get(y));
-                    namesSorted.set(x, names.get(y));
-                }
+        for (int i = 0; i < serialsSorted.size(); i++) {
+
+            for (int p = 0; p < serialsSorted.size(); p++) {
+
+                if (serialsSorted.get(i).equals(serials.get(p)))
+                    index[i] = p;
+
             }
+        }
+        for (int x = 0; x < serials.size(); x++) {
+
+            namesSorted.set(x, names.get(index[x]));
+            valuesSorted.set(x, values.get(index[x]));
         }
 
         ListViewName.getItems().addAll(namesSorted);
@@ -145,23 +163,59 @@ public class FrontPageController {
 
     // Opens save window
     public void SavePressed() throws IOException {
+
+        // Add htm and txt extensions to file extension selections
+        dir.getExtensionFilters().removeAll();
         dir.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("Html Files", "*.htm"));
 
+        // Show user's computer file directories for them to save file to
         userFile = dir.showSaveDialog(stage);
         fileName = userFile.getName();
-        //myFile = new File((u))
+        String ext = "";
+        char[] name = fileName.toCharArray();
 
+        // Create writer to output to file
         writer = new PrintWriter(userFile);
-        writer.println("Value\tSerial Number\tName\n");
-        for (int i = 0; i < namesSorted.size(); i++) {
 
-            writer.write(valuesSorted.get(i) + "\t" + serialsSorted.get(i) + "\t" +namesSorted.get(i) + "\n");
+        // Get file extension name
+        for (int x = fileName.length() - 1; x >= 0; x--) {
 
+            if (name[x] == '.')
+                break;
+
+            ext += name[x];
         }
-        writer.close();
 
+        // txt is txt backwards so if ext name is txt out to txt file
+        if (ext.equals("txt")) {
+            writer.println("Value\tSerial Number\tName\n");
+
+            for (int i = 0; i < namesSorted.size(); i++)
+                writer.write(valuesSorted.get(i) + "\t" + serialsSorted.get(i) + "\t" + namesSorted.get(i) + "\n");
+
+            writer.close();
+        }
+
+        // Out to html file if user chooses .htm extension
+        else {
+
+            // Creates table format with 3 columns
+            writer.write("<html><body><table border = \"2\"><tr><th>Value</th> <th>Serial Number</th><th>Name</th> </tr>");
+
+            for (int x = 0; x < namesSorted.size(); x++) {
+
+                writer.write("<tr> <td>" + valuesSorted.get(x) + "</td>");
+                writer.write("<td>" + serialsSorted.get(x) + "</td>");
+                writer.write("<td>" + namesSorted.get(x) + "</td> </tr>");
+            }
+
+            writer.write("</table> </body> </html>");
+            writer.close();
+        }
+
+        ext = "";
     }
 
     // Opens load window
@@ -205,8 +259,6 @@ public class FrontPageController {
                 AllItems.getItems().remove(element);
             }));
             AllItems.getItems().add(element);
-
         }
-
     }
 }

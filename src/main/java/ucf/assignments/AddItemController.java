@@ -30,12 +30,14 @@ public class AddItemController {
 
         // Add item to list if all booleans are true and valid data has been entered
         if (serialCheck && nameCheck && valueCheck && serialEntry && nameEntry && valueEntry) {
+
             FrontPageController.serials.add(ItemSerial.getText());
             FrontPageController.serialsSorted.add(ItemSerial.getText());
             FrontPageController.names.add(ItemName.getText());
             FrontPageController.namesSorted.add(ItemName.getText());
             FrontPageController.values.add("$" + ItemValue.getText());
             FrontPageController.valuesSorted.add("$" + ItemValue.getText());
+
             serialEntry = false;
             nameEntry = false;
             valueEntry = false;
@@ -48,6 +50,7 @@ public class AddItemController {
             ItemValue.setText("Item Value Here");
             ItemSerial.setText("Item Serial Number Here");
         }
+
     }
 
     // Checks if name entry is valid
@@ -107,7 +110,7 @@ public class AddItemController {
 
         // Checks if serial number is already in use
         for (int i = 0; i < FrontPageController.serials.size(); i++) {
-            if (ItemSerial.getText().equals(FrontPageController.serials.get(i))) {
+            if (ItemSerial.getText().equals(FrontPageController.serials.get(i)) || ItemSerial.getText().equals(FrontPageController.serials.get(i).toLowerCase())) {
                 serialCheck = false;
                 ShowItemStatus.setText("Error: This serial number already exists!");
             }

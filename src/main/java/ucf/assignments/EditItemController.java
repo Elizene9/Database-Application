@@ -27,8 +27,8 @@ public class EditItemController {
     public String temp;
 
     // Booleans check if user entry data is valid
-    public boolean serialCheck = true, nameCheck = true, valueCheck = true, serialEdit = true, nameEdit = true, valueEdit = true;
-    public boolean serialEntry = false, nameEntry = false, valueEntry = false;
+    boolean serialCheck = true, nameCheck = true, valueCheck = true, serialEdit = true, nameEdit = true, valueEdit = true;
+    boolean serialEntry = false, nameEntry = false, valueEntry = false;
 
     // Value to check value validity
     public Double checkValue;
@@ -84,6 +84,7 @@ public class EditItemController {
 
     // Check for valid serial entry
     public void ItemSerialEntered() {
+
         serial = EditSerial.getText().toCharArray();
         serialCheck = true;
         serialEdit = true;
