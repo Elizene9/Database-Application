@@ -1,11 +1,17 @@
 package ucf.assignments;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.jsoup.Jsoup;
+import org.jsoup.Jsoup.*;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.File;
@@ -50,9 +56,15 @@ public class FrontPageController {
     String fileName;
     FileChooser dir = new FileChooser();
     FileChooser open = new FileChooser();
+    FileChooser load = new FileChooser();
     PrintWriter writer;
     File userFile;
     File loadFile;
+    File openFile;
+    String extension, forward;
+    Scanner input;
+    Document doc;
+
 
     @FXML
     public ListView<String> ListViewName = new ListView<>();
@@ -212,9 +224,9 @@ public class FrontPageController {
 
             for (int x = 0; x < namesSorted.size(); x++) {
 
-                writer.write("<tr> <td>" + valuesSorted.get(x) + "</td>");
-                writer.write("<td>" + serialsSorted.get(x) + "</td>");
-                writer.write("<td>" + namesSorted.get(x) + "</td> </tr>");
+                writer.write("<tr> <td>" + valuesSorted.get(x) + ";" + "</td>");
+                writer.write("<td>" + serialsSorted.get(x) +";" + "</td>");
+                writer.write("<td>" + namesSorted.get(x) +";" + "</td> </tr>");
             }
 
             writer.write("</table> </body> </html>");
@@ -226,9 +238,117 @@ public class FrontPageController {
 
     // Opens load window
     public void LoadPressed() throws IOException {
+        extension = "";
+        forward = "";
+        int stop = 0;
+        loadFile = load.showOpenDialog(stage);
 
-        loadFile = open.showOpenDialog(stage);
-        Desktop.getDesktop().open(loadFile);
+        char[] myFile = loadFile.getName().toCharArray();
+        for (int i = loadFile.getName().length() - 1; i >= 0; i--) {
+
+            if (myFile[i] == '.') {
+                stop = i;
+                break;
+            }
+
+        }
+
+        for (int j = stop; j < myFile.length; j++)
+            extension += myFile[j];
+
+        input = new Scanner(new File(loadFile.getAbsolutePath()));
+        String tags = "";
+
+        // Read all file data for html file
+
+        if (extension.equals(".htm")) {
+            while (input.hasNext()) {
+
+                tags += input.next();
+
+            }
+            doc = Jsoup.parse(tags);
+            String myText = doc.text();
+
+            char[] newText = new char[myText.length()];
+            newText = myText.toCharArray();
+
+            valuesSorted.clear();
+            values.clear();
+            namesSorted.clear();
+            names.clear();
+            serials.clear();
+            serialsSorted.clear();
+            int counter = 0;
+            String mySerial = "", myNames = "", myValue = "";
+            int h = 21;
+
+            // Adds html elements to user inventory
+
+            while (h < newText.length) {
+                mySerial = "";
+                myNames = "";
+                myValue = "";
+                while (newText[h] != ';') {
+                    myValue += newText[h];
+                    h++;
+                }
+                h++;
+                valuesSorted.add(counter, myValue);
+                values.add(counter, myValue);
+
+                while (newText[h] != ';') {
+                    mySerial += newText[h];
+                    h++;
+                }
+                h++;
+                serialsSorted.add(counter, mySerial);
+                serials.add(counter, mySerial);
+
+                while (newText[h] != ';') {
+                    myNames += newText[h];
+                    h++;
+                }
+
+                h++;
+
+                namesSorted.add(counter, myNames);
+                names.add(counter, myNames);
+                if (h == newText.length)
+                    break;
+
+                counter++;
+            }
+    }
+
+        else if (extension.equals(".txt")) {
+
+            for (int i = 0; i < 4; i++)
+                input.next();
+
+            int myCount = 0;
+            valuesSorted.clear();
+            values.clear();
+            namesSorted.clear();
+            names.clear();
+            serials.clear();
+            serialsSorted.clear();
+            String serial, name, value;
+            while (input.hasNext()) {
+
+                value = input.next();
+                serial = input.next();
+                name = input.next();
+
+                values.add(value);
+                valuesSorted.add(value);
+                serials.add(serial);
+                serialsSorted.add(serial);
+                names.add(name);
+                namesSorted.add(name);
+            }
+
+        }
 
     }
 
@@ -277,5 +397,10 @@ public class FrontPageController {
             AllItems.getItems().add(element);
         }
 
+    }
+
+    public void OpenFilePressed() throws IOException {
+        openFile = open.showOpenDialog(stage);
+        Desktop.getDesktop().open(openFile);
     }
 }

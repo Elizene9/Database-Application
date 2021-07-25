@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.FrontPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.FrontPageController">
     <Button layoutX="345.0" layoutY="481.0" mnemonicParsing="false" onAction="#ExitPressed" prefHeight="102.0" prefWidth="161.0" text="EXIT" textFill="#f50000">
         <font>
           <Font size="48.0" />
@@ -48,6 +52,7 @@
           <MenuItem fx:id="SortBySerial" mnemonicParsing="false" onAction="#SortSerial" text="Sort by Serial Number" />
           <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#SavePressed" text="Save List" />
           <MenuItem fx:id="Load" mnemonicParsing="false" onAction="#LoadPressed" text="Load List" />
+         <MenuItem fx:id="OpenButton" mnemonicParsing="false" onAction="#OpenFilePressed" text="Open List File" />
       </items>
         <font>
           <Font size="24.0" />

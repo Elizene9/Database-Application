@@ -14,6 +14,12 @@
     fileName : String
     stage : Stage
     userFile : File
+    openFile : File
+    loadFile : File
+    input : Scanner
+    extension : String
+    forward : String
+    doc : Document
     +names : List<String>
     +serials : List<String>
     +values : List<String>
@@ -21,6 +27,7 @@
     +serialsSorted : List<String>
     +valuesSorted : List<String>
     +OptionsMenu : SplitMenuButton
+    +OpenFilePressed()
     +Add : MenuItem
     +Remove : MenuItem
     +Edit : MenuItem
