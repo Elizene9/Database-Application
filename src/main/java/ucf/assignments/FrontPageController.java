@@ -2,13 +2,17 @@ package ucf.assignments;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.MenuItem;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.List;
 
 // This class allows all other pages of app to be loaded from buttons on front page
 public class FrontPageController {
@@ -45,8 +49,10 @@ public class FrontPageController {
     Stage stage = new Stage();
     String fileName;
     FileChooser dir = new FileChooser();
+    FileChooser open = new FileChooser();
     PrintWriter writer;
     File userFile;
+    File loadFile;
 
     @FXML
     public ListView<String> ListViewName = new ListView<>();
@@ -165,7 +171,7 @@ public class FrontPageController {
     public void SavePressed() throws IOException {
 
         // Add htm and txt extensions to file extension selections
-        dir.getExtensionFilters().removeAll();
+        dir.getExtensionFilters().clear();
         dir.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("Html Files", "*.htm"));
@@ -220,45 +226,56 @@ public class FrontPageController {
 
     // Opens load window
     public void LoadPressed() throws IOException {
-        System.out.println(fileName);
+
+        loadFile = open.showOpenDialog(stage);
+        Desktop.getDesktop().open(loadFile);
 
     }
 
     // Shows all items and removes them upon a click
     public void ShowListItems() {
         AllItems.getItems().clear();
+        SortName();
         remove.clear();
-        for (int z = 0; z < namesSorted.size(); z++) {
+        for (int i = 0; i < namesSorted.size(); i++) {
+            remove.add(namesSorted.get(i) + ": " + serialsSorted.get(i));
+        }
+
+        for (int j = 0; j < remove.size(); j++) {
 
             MenuItem element = new MenuItem();
-            remove.add(namesSorted.get(z) + ": " + serialsSorted.get(z));
-            element.setText(remove.get(z));
+            element.setText(remove.get(j));
             element.setOnAction((event -> {
-                for (int j = 0; j < namesSorted.size(); j++) {
-                    if (element.getText().equals(names.get(j) + ": " + serials.get(j)) && element.getText().equals(namesSorted.get(j) + ": " + serialsSorted.get(j))) {
-                        names.remove(j);
-                        serials.remove(j);
-                        values.remove(j);
-                        namesSorted.remove(j);
-                        valuesSorted.remove(j);
-                        serialsSorted.remove(j);
-                    }
+                int k =0;
+                for (int h = 0; h < remove.size(); h++) {
 
-                    else if (element.getText().equals(namesSorted.get(j) + ": " + serialsSorted.get(j)) && !element.getText().equals(names.get(j) + ": " + serials.get(j))) {
-                        namesSorted.remove(j);
-                        valuesSorted.remove(j);
-                        serialsSorted.remove(j);
-                    }
+                    if (!remove.get(h).isEmpty()) {
 
-                    else if (!element.getText().equals(namesSorted.get(j) + ": " + serialsSorted.get(j)) && element.getText().equals(names.get(j) + ": " + serials.get(j))) {
-                        names.remove(j);
-                        values.remove(j);
-                        serials.remove(j);
+                        if (element.getText().equals(remove.get(h))) {
+                            k++;
+                            namesSorted.remove(h);
+                            serialsSorted.remove(h);
+                            valuesSorted.remove(h);
+                        }
+
+                        if (element.getText().equals(names.get(h) + ": " + serials.get(h))) {
+
+                            k++;
+                            names.remove(h);
+                            serials.remove(h);
+                            values.remove(h);
+                        }
+
+                        if (k == 2) {
+                            remove.remove(h);
+                            break;
+                        }
+
                     }
                 }
-                AllItems.getItems().remove(element);
             }));
             AllItems.getItems().add(element);
         }
+
     }
 }
