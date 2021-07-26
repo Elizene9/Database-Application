@@ -1,3 +1,8 @@
+/*
+ * UCF COP 3330 Summer 2021 Assignment 5 Solution
+ * Copyright 2021 Charlene Creighton
+ */
+
 package ucf.assignments;
 
 import javafx.fxml.FXML;
@@ -153,8 +158,8 @@ public class EditItemController {
             FrontPageController.serialsSorted.set(sort, EditSerial.getText());
             FrontPageController.names.set(counter, EditName.getText());
             FrontPageController.namesSorted.set(sort, EditName.getText());
-            FrontPageController.values.set(counter, "$" + EditValue.getText());
-            FrontPageController.valuesSorted.set(sort, "$" + EditValue.getText());
+            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
+            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
         }
 
         else if (serialCheck && nameCheck && valueCheck && serialEdit && nameEdit && !valueEdit) {
@@ -177,8 +182,8 @@ public class EditItemController {
 
         else if (serialCheck && nameCheck && valueCheck && !serialEdit && nameEdit && valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.values.set(counter, "$" + EditValue.getText());
-            FrontPageController.valuesSorted.set(sort, "$" + EditValue.getText());
+            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
+            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
             FrontPageController.names.set(counter, EditName.getText());
             FrontPageController.namesSorted.set(sort, EditName.getText());
         }
@@ -193,13 +198,13 @@ public class EditItemController {
             ShowItemStatus.setText("                    Item Edited");
             FrontPageController.serials.set(counter, EditSerial.getText());
             FrontPageController.serialsSorted.set(sort, EditSerial.getText());
-            FrontPageController.values.set(counter, "$" + EditValue.getText());
-            FrontPageController.valuesSorted.set(sort, "$"+EditValue.getText());
+            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
+            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
         }
         else if (serialCheck && nameCheck && valueCheck && !serialEdit && !nameEdit && valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.values.set(counter, "$" + EditValue.getText());
-            FrontPageController.valuesSorted.set(sort, "$" + EditValue.getText());
+            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
+            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
         }
 
         // Display error message if user tries to add item with invalid input

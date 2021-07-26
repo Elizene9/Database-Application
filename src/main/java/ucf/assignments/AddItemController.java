@@ -1,3 +1,8 @@
+/*
+ * UCF COP 3330 Summer 2021 Assignment 5 Solution
+ * Copyright 2021 Charlene Creighton
+ */
+
 package ucf.assignments;
 
 import javafx.fxml.FXML;
@@ -35,8 +40,8 @@ public class AddItemController {
             FrontPageController.serialsSorted.add(ItemSerial.getText());
             FrontPageController.names.add(ItemName.getText());
             FrontPageController.namesSorted.add(ItemName.getText());
-            FrontPageController.values.add("$" + ItemValue.getText());
-            FrontPageController.valuesSorted.add("$" + ItemValue.getText());
+            FrontPageController.values.add(Double.parseDouble(ItemValue.getText()));
+            FrontPageController.valuesSorted.add(Double.parseDouble(ItemValue.getText()));
 
             serialEntry = false;
             nameEntry = false;

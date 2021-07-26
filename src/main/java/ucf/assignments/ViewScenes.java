@@ -1,3 +1,8 @@
+/*
+ * UCF COP 3330 Summer 2021 Assignment 5 Solution
+ * Copyright 2021 Charlene Creighton
+ */
+
 package ucf.assignments;
 
 // This enum allows scene switching

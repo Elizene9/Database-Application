@@ -1,17 +1,18 @@
+/*
+* UCF COP 3330 Summer 2021 Assignment 5 Solution
+* Copyright 2021 Charlene Creighton
+*/
+
 package ucf.assignments;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jsoup.Jsoup;
-import org.jsoup.Jsoup.*;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.File;
@@ -25,33 +26,19 @@ public class FrontPageController {
 
     // Lists and sorted lists to store items
     public static List<String> names = new ArrayList<>();
-    public static List<String> values = new ArrayList<>();
+    public static List<Double> values = new ArrayList<>();
     public static List<String> serials = new ArrayList<>();
     public static List<String> namesSorted = new ArrayList<>();
     public static List<String> serialsSorted = new ArrayList<>();
-    public static List<String> valuesSorted = new ArrayList<>();
+    public static List<Double> valuesSorted = new ArrayList<>();
     public static List<String> remove = new ArrayList<>();
-    // FXML controls to be accessed
-    @FXML
-    public SplitMenuButton OptionsMenu = new SplitMenuButton();
-    @FXML
-    public MenuItem Add = new MenuItem();
-    @FXML
-    public MenuItem Remove = new MenuItem();
-    @FXML
-    public MenuItem Edit = new MenuItem();
-    @FXML
-    public MenuItem SortByValue = new MenuItem();
-    @FXML
-    public MenuItem SortByName = new MenuItem();
-    @FXML
-    public MenuItem SortBySerial = new MenuItem();
-    @FXML
-    public MenuItem Save = new MenuItem();
-    @FXML
-    public MenuItem Load = new MenuItem();
-    @FXML public SplitMenuButton AllItems = new SplitMenuButton();
 
+    // FXML controls to be accessed
+    @FXML public SplitMenuButton OptionsMenu = new SplitMenuButton();
+    @FXML public SplitMenuButton AllItems = new SplitMenuButton();
+    @FXML public SplitMenuButton ItemsFound = new SplitMenuButton();
+
+    // Variables to interact with user's files
     Stage stage = new Stage();
     String fileName;
     FileChooser dir = new FileChooser();
@@ -71,16 +58,13 @@ public class FrontPageController {
     @FXML
     public ListView<String> ListViewSerial = new ListView<>();
     @FXML
-    public ListView<String> ListViewValue = new ListView<>();
+    public ListView<Double> ListViewValue = new ListView<>();
+    @FXML
+    public TextField SearchBar = new TextField();
 
     // Exit application when exit button is pressed
     public void ExitPressed() {
         System.exit(0);
-    }
-
-    // Shows user how to use app on click
-    public void HelpPressed()  {
-
     }
 
     // Load new add item window when pressed
@@ -119,7 +103,7 @@ public class FrontPageController {
         }
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll(valuesSorted);
+        ListViewValue.getItems().addAll((valuesSorted));
     }
 
     // Sorts list by name and prints
@@ -147,7 +131,7 @@ public class FrontPageController {
 
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll(valuesSorted);
+        ListViewValue.getItems().addAll((valuesSorted));
     }
 
     // Sorts list by serial number and prints
@@ -243,113 +227,118 @@ public class FrontPageController {
         int stop = 0;
         loadFile = load.showOpenDialog(stage);
 
-        char[] myFile = loadFile.getName().toCharArray();
-        for (int i = loadFile.getName().length() - 1; i >= 0; i--) {
+        if (loadFile.exists()) {
+            char[] myFile = loadFile.getName().toCharArray();
+            for (int i = loadFile.getName().length() - 1; i >= 0; i--) {
 
-            if (myFile[i] == '.') {
-                stop = i;
-                break;
-            }
-
-        }
-
-        for (int j = stop; j < myFile.length; j++)
-            extension += myFile[j];
-
-        input = new Scanner(new File(loadFile.getAbsolutePath()));
-        String tags = "";
-
-        // Read all file data for html file
-
-        if (extension.equals(".htm")) {
-            while (input.hasNext()) {
-
-                tags += input.next();
-
-            }
-            doc = Jsoup.parse(tags);
-            String myText = doc.text();
-
-            char[] newText = new char[myText.length()];
-            newText = myText.toCharArray();
-
-            valuesSorted.clear();
-            values.clear();
-            namesSorted.clear();
-            names.clear();
-            serials.clear();
-            serialsSorted.clear();
-            int counter = 0;
-            String mySerial = "", myNames = "", myValue = "";
-            int h = 21;
-
-            // Adds html elements to user inventory
-
-            while (h < newText.length) {
-                mySerial = "";
-                myNames = "";
-                myValue = "";
-                while (newText[h] != ';') {
-                    myValue += newText[h];
-                    h++;
-                }
-                h++;
-                valuesSorted.add(counter, myValue);
-                values.add(counter, myValue);
-
-                while (newText[h] != ';') {
-                    mySerial += newText[h];
-                    h++;
-                }
-                h++;
-                serialsSorted.add(counter, mySerial);
-                serials.add(counter, mySerial);
-
-                while (newText[h] != ';') {
-                    myNames += newText[h];
-                    h++;
-                }
-
-                h++;
-
-                namesSorted.add(counter, myNames);
-                names.add(counter, myNames);
-                if (h == newText.length)
+                if (myFile[i] == '.') {
+                    stop = i;
                     break;
+                }
 
-                counter++;
-            }
-    }
-
-        else if (extension.equals(".txt")) {
-
-            for (int i = 0; i < 4; i++)
-                input.next();
-
-            int myCount = 0;
-            valuesSorted.clear();
-            values.clear();
-            namesSorted.clear();
-            names.clear();
-            serials.clear();
-            serialsSorted.clear();
-            String serial, name, value;
-            while (input.hasNext()) {
-
-                value = input.next();
-                serial = input.next();
-                name = input.next();
-
-                values.add(value);
-                valuesSorted.add(value);
-                serials.add(serial);
-                serialsSorted.add(serial);
-                names.add(name);
-                namesSorted.add(name);
             }
 
+            for (int j = stop; j < myFile.length; j++)
+                extension += myFile[j];
+
+            input = new Scanner(new File(loadFile.getAbsolutePath()));
+            String tags = "";
+
+            // Read all file data for html file
+
+            if (extension.equals(".htm")) {
+                while (input.hasNext()) {
+
+                    tags += input.next();
+
+                }
+                doc = Jsoup.parse(tags);
+                String myText = doc.text();
+
+                char[] newText = new char[myText.length()];
+                newText = myText.toCharArray();
+
+                valuesSorted.clear();
+                values.clear();
+                namesSorted.clear();
+                names.clear();
+                serials.clear();
+                serialsSorted.clear();
+                int counter = 0;
+                String mySerial = "", myNames = "", myValue = "";
+                int h = 21;
+
+                // Adds html elements to user inventory
+
+                System.out.println(newText.length);
+                while (h < newText.length) {
+                    mySerial = "";
+                    myNames = "";
+                    myValue = "";
+
+
+                    while (newText[h] != ';') {
+                        myValue += newText[h];
+
+                        if (h == newText.length - 1)
+                            break;
+                            h++;
+                    }
+                    h++;
+                    valuesSorted.add(counter, Double.parseDouble(myValue));
+                    values.add(counter, Double.parseDouble(myValue));
+
+                    while (newText[h] != ';') {
+                        mySerial += newText[h];
+                        h++;
+                    }
+                    h++;
+                    serialsSorted.add(counter, mySerial);
+                    serials.add(counter, mySerial);
+
+                    while (newText[h] != ';') {
+                        myNames += newText[h];
+                        h++;
+                    }
+
+                    h++;
+
+                    namesSorted.add(counter, myNames);
+                    names.add(counter, myNames);
+                    if (h == newText.length)
+                        break;
+
+                    counter++;
+                }
+            } else if (extension.equals(".txt")) {
+
+                for (int i = 0; i < 4; i++)
+                    input.next();
+
+                int myCount = 0;
+                valuesSorted.clear();
+                values.clear();
+                namesSorted.clear();
+                names.clear();
+                serials.clear();
+                serialsSorted.clear();
+                String serial, name, value;
+                while (input.hasNext()) {
+
+                    value = input.next();
+                    serial = input.next();
+                    name = input.next();
+
+                    values.add(Double.parseDouble(value));
+                    valuesSorted.add(Double.parseDouble(value));
+                    serials.add(serial);
+                    serialsSorted.add(serial);
+                    names.add(name);
+                    namesSorted.add(name);
+                }
+
+            }
         }
-
     }
 
     // Shows all items and removes them upon a click
@@ -401,6 +390,31 @@ public class FrontPageController {
 
     public void OpenFilePressed() throws IOException {
         openFile = open.showOpenDialog(stage);
-        Desktop.getDesktop().open(openFile);
+
+        if (openFile.exists())
+            Desktop.getDesktop().open(openFile);
+    }
+
+    public void PopulateSearch() {
+        SearchBar.setText("SEARCH by Name or Serial Number (Case Sensitive)");
+    }
+
+    public void Searched() {
+        ItemsFound.getItems().clear();
+        for (int i = 0; i < namesSorted.size(); i++) {
+            MenuItem item = new MenuItem();
+            MenuItem element = new MenuItem();
+
+            if (namesSorted.get(i).contains(SearchBar.getText())) {
+
+                item.setText("Name: " + namesSorted.get(i));
+                ItemsFound.getItems().add(item);
+            }
+
+            if (serialsSorted.get(i).contains(SearchBar.getText())) {
+                element.setText("Serial: " + serialsSorted.get(i));
+                ItemsFound.getItems().add(element);
+            }
+        }
     }
 }

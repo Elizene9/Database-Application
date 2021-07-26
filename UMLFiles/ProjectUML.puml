@@ -22,24 +22,20 @@
     doc : Document
     +names : List<String>
     +serials : List<String>
-    +values : List<String>
+    +values : List<Double>
     +namesSorted : List<String>
     +serialsSorted : List<String>
-    +valuesSorted : List<String>
+    +valuesSorted : List<Double>
     +OptionsMenu : SplitMenuButton
+    +ItemsFound : SplitMenuButton
     +OpenFilePressed()
-    +Add : MenuItem
-    +Remove : MenuItem
-    +Edit : MenuItem
-    +SortByValue : MenuItem
-    +SortByName : MenuItem
-    +SortBySerial : MenuItem
-    +Load : MenuItem
-    +Save : MenuItem
+    +PopulateSearch()
+    +Searched()
     +ListViewName : ListView<String>
-    +ListViewValue : ListView<String>
+    +ListViewValue : ListView<Double>
     +ListViewSerial : ListView<String>
     +AllItems : SplitMenuButton
+    +SearchBar : TextField
     +ExitPressed()
     +DisplayPressed()
     +HelpPressed()
