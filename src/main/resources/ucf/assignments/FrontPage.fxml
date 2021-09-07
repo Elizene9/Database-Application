@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.FrontPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="850.0" stylesheets="@myFirst.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.FrontPageController">
     <Button layoutX="14.0" layoutY="481.0" mnemonicParsing="false" onAction="#ExitPressed" prefHeight="102.0" prefWidth="243.0" text="EXIT" textFill="#f50000">
         <font>
           <Font size="48.0" />
@@ -50,7 +55,7 @@
         </font>
     </SplitMenuButton>
    <SplitMenuButton fx:id="AllItems" layoutX="640.0" layoutY="213.0" prefHeight="30.0" prefWidth="209.0" text="PERMANENTLY DELETE ITEM" />
-   <TextField fx:id="SearchBar" layoutX="548.0" layoutY="136.0" onAction="#Searched" prefHeight="25.0" prefWidth="288.0" text="SEARCH by Name or Serial Number (Case Sensitive)" />
+   <TextField fx:id="SearchBar" layoutX="548.0" layoutY="136.0" onAction="#Searched" onKeyTyped="#Searched" prefHeight="25.0" prefWidth="288.0" />
    <SplitMenuButton fx:id="ItemsFound" layoutX="640.0" layoutY="243.0" mnemonicParsing="false" onAction="#PopulateSearch" prefHeight="30.0" prefWidth="209.0" text="      View Items Found" textAlignment="CENTER">
       <font>
          <Font size="14.0" />

@@ -9,7 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+import java.lang.*;
 
 public class FrontPage extends Application {
 
@@ -19,7 +19,7 @@ public class FrontPage extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        setUserAgentStylesheet(STYLESHEET_MODENA);
         // Create new scene
         var scene = new Scene(new Pane());
         ChangeScenes.stageScene(scene);

@@ -9,27 +9,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
+
 public class EditItemController {
 
     // FXML Control accessors
     @FXML public Button DoneButton = new Button();
-    @FXML
-    public TextField EditName = new TextField();
-    @FXML
-    public TextField EditValue = new TextField();
-    @FXML
-    public TextField EditSerial = new TextField();
-
+    @FXML public TextField EditName = new TextField();
+    @FXML public TextField EditValue = new TextField();
+    @FXML public TextField EditSerial = new TextField();
     @FXML public TextArea ShowItemStatus = new TextArea();
-    @FXML
-    public SplitMenuButton AllItems = new SplitMenuButton();
+    @FXML public SplitMenuButton AllItems = new SplitMenuButton();
 
     // Counters to hold index of items to be edited
     public int counter = -1;
     public int sort = -1;
-
-    // Temporarily stores list values
-    public String temp;
+    public int AllItemsControl = 0;
 
     // Booleans check if user entry data is valid
     boolean serialCheck = true, nameCheck = true, valueCheck = true, serialEdit = true, nameEdit = true, valueEdit = true;
@@ -126,6 +121,7 @@ public class EditItemController {
 
     // Exits window when user finishes editing items they want to edit
     public void DonePressed() {
+
         // Get rid of any error items and exit window
         ShowItemStatus.setText("    Press add once you are finished adding the details of your item");
         FrontPageController.remove.clear();
@@ -133,6 +129,8 @@ public class EditItemController {
 
             FrontPageController.remove.add(FrontPageController.names.get(z) + ": " + FrontPageController.serials.get(z));
         }
+        AllItems.getItems().clear();
+        AllItemsControl = 0;
         Stage stage = (Stage) DoneButton.getScene().getWindow();
         stage.close();
 
@@ -141,6 +139,7 @@ public class EditItemController {
     // Allows item to be edited when pressed
     public void EditPressed() {
         // Add item to list if all booleans are true and valid data has been entered
+        AllItemsControl = 0;
 
         if (EditSerial.getText().isEmpty() || EditSerial.getText().equals("New Item Serial Number Here") || !serialEntry)
             serialEdit = false;
@@ -158,11 +157,11 @@ public class EditItemController {
             FrontPageController.serialsSorted.set(sort, EditSerial.getText());
             FrontPageController.names.set(counter, EditName.getText());
             FrontPageController.namesSorted.set(sort, EditName.getText());
-            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
-            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
+            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
         }
 
-        else if (serialCheck && nameCheck && valueCheck && serialEdit && nameEdit && !valueEdit) {
+        else if (serialCheck && nameCheck && valueCheck && serialEdit && nameEdit) {
             ShowItemStatus.setText("                    Item Edited");
             FrontPageController.serials.set(counter, EditSerial.getText());
             FrontPageController.serialsSorted.set(sort, EditSerial.getText());
@@ -170,7 +169,7 @@ public class EditItemController {
             FrontPageController.namesSorted.set(sort, EditName.getText());
         }
 
-        else if (serialCheck && nameCheck && valueCheck && serialEdit && !nameEdit && !valueEdit) {
+        else if (serialCheck && nameCheck && valueCheck && serialEdit && !valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
             FrontPageController.serials.set(counter, EditSerial.getText());
             FrontPageController.serialsSorted.set(sort, EditSerial.getText());
@@ -182,29 +181,29 @@ public class EditItemController {
 
         else if (serialCheck && nameCheck && valueCheck && !serialEdit && nameEdit && valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
-            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
+            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
             FrontPageController.names.set(counter, EditName.getText());
             FrontPageController.namesSorted.set(sort, EditName.getText());
         }
 
-        else if (serialCheck && nameCheck && valueCheck && !serialEdit && nameEdit && !valueEdit) {
+        else if (serialCheck && nameCheck && valueCheck && !serialEdit && nameEdit) {
             ShowItemStatus.setText("                    Item Edited");
             FrontPageController.names.set(counter, EditName.getText());
             FrontPageController.namesSorted.set(sort, EditName.getText());
         }
 
-        else if (serialCheck && nameCheck && valueCheck && serialEdit && !nameEdit && valueEdit) {
+        else if (serialCheck && nameCheck && valueCheck && serialEdit) {
             ShowItemStatus.setText("                    Item Edited");
             FrontPageController.serials.set(counter, EditSerial.getText());
             FrontPageController.serialsSorted.set(sort, EditSerial.getText());
-            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
-            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
+            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
         }
-        else if (serialCheck && nameCheck && valueCheck && !serialEdit && !nameEdit && valueEdit) {
+        else if (serialCheck && nameCheck && valueCheck) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.values.set(counter, Double.parseDouble(EditValue.getText()));
-            FrontPageController.valuesSorted.set(sort, Double.parseDouble(EditValue.getText()));
+            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
         }
 
         // Display error message if user tries to add item with invalid input
@@ -213,7 +212,11 @@ public class EditItemController {
             EditName.setText("New Item Name Here");
             EditValue.setText("New Item Value Here");
             EditSerial.setText("New Item Serial Number Here");
+            AllItemsControl = -1;
         }
+
+        if (AllItemsControl == 0)
+            FrontPageController.remove.add(FrontPageController.namesSorted.get(counter) + ": " + FrontPageController.serialsSorted.get(counter));
 
         serialEntry = false;
         nameEntry = false;
@@ -222,63 +225,42 @@ public class EditItemController {
 
     // Displays dropdown items
     public void ViewAllItems() {
-        AllItems.getItems().clear();
-        FrontPageController.remove.clear();
-        for (int x = 0; x < FrontPageController.namesSorted.size(); x++) {
 
-            MenuItem item = new MenuItem();
-            FrontPageController.remove.add(FrontPageController.namesSorted.get(x) + ": " + FrontPageController.serialsSorted.get(x));
-            item.setText(FrontPageController.remove.get(x));
-            item.setOnAction((event -> {
-                for (int t = 0; t < FrontPageController.namesSorted.size(); t++) {
-                    temp = FrontPageController.namesSorted.get(t) + ": " + FrontPageController.serialsSorted.get(t);
-                    if (item.getText().equals(FrontPageController.remove.get(t)) && item.getText().equals(temp)) {
-                        counter = t;
-                        sort = t;
-                    }
+        if (AllItemsControl == 0) {
+            AllItems.getItems().clear();
+            int length = FrontPageController.namesSorted.size();
 
-                    else if (item.getText().equals(FrontPageController.remove.get(t)) && !item.getText().equals(temp)) {
-                        counter = t;
-                    }
+            for (int x = 0; x < length; x++) {
+                MenuItem elements = new MenuItem();
+                int edited = x;
+                elements.setText(FrontPageController.namesSorted.get(x) + ": " + FrontPageController.serialsSorted.get(x));
+                elements.setOnAction((event -> {
 
-                    else if (!item.getText().equals(FrontPageController.remove.get(t)) && item.getText().equals(temp)) {
-                        sort = t;
-                    }
-                }
-            }));
-            AllItems.getItems().add(item);
-
+                    counter = edited;
+                    sort = edited;
+                }));
+                AllItems.getItems().add(elements);
+            }
         }
+        AllItemsControl = -1;
     }
 
-    //Ensures dropdown items are properly displayed to be edited
-    public void SetItems() {
+    public void SetBoxItems() {
+        /*
         AllItems.getItems().clear();
-        FrontPageController.remove.clear();
-        for (int x = 0; x < FrontPageController.namesSorted.size(); x++) {
+        int length = FrontPageController.namesSorted.size();
 
-            MenuItem item = new MenuItem();
-            FrontPageController.remove.add(FrontPageController.namesSorted.get(x) + ": " + FrontPageController.serialsSorted.get(x));
-            item.setText(FrontPageController.remove.get(x));
-            item.setOnAction((event -> {
-                for (int t = 0; t < FrontPageController.namesSorted.size(); t++) {
-                    temp = FrontPageController.namesSorted.get(t) + ": " + FrontPageController.serialsSorted.get(t);
-                    if (item.getText().equals(FrontPageController.remove.get(t)) && item.getText().equals(temp)) {
-                        counter = t;
-                        sort = t;
-                    }
+        for (int x = 0; x < length; x++) {
+            MenuItem elements = new MenuItem();
+            int edited = x;
+            elements.setText(FrontPageController.namesSorted.get(x) + ": " + FrontPageController.serialsSorted.get(x));
+            elements.setOnAction((event -> {
 
-                    else if (item.getText().equals(FrontPageController.remove.get(t)) && !item.getText().equals(temp)) {
-                        counter = t;
-                    }
-
-                    else if (!item.getText().equals(FrontPageController.remove.get(t)) && item.getText().equals(temp)) {
-                        sort = t;
-                    }
-                }
+                counter = edited;
+                sort = edited;
             }));
-            AllItems.getItems().add(item);
-
+            AllItems.getItems().add(elements);
         }
+        */
     }
 }

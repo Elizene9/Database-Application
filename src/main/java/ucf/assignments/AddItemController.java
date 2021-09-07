@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.math.BigDecimal;
 
 // This class adds a new item to inventory
 public class AddItemController {
@@ -40,8 +41,8 @@ public class AddItemController {
             FrontPageController.serialsSorted.add(ItemSerial.getText());
             FrontPageController.names.add(ItemName.getText());
             FrontPageController.namesSorted.add(ItemName.getText());
-            FrontPageController.values.add(Double.parseDouble(ItemValue.getText()));
-            FrontPageController.valuesSorted.add(Double.parseDouble(ItemValue.getText()));
+            FrontPageController.values.add(BigDecimal.valueOf(Double.parseDouble(ItemValue.getText())));
+            FrontPageController.valuesSorted.add(BigDecimal.valueOf(Double.parseDouble(ItemValue.getText())));
 
             serialEntry = false;
             nameEntry = false;

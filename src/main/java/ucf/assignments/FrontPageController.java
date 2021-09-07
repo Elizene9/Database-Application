@@ -5,6 +5,7 @@
 
 package ucf.assignments;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
@@ -13,11 +14,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
 
@@ -26,11 +29,11 @@ public class FrontPageController {
 
     // Lists and sorted lists to store items
     public static List<String> names = new ArrayList<>();
-    public static List<Double> values = new ArrayList<>();
+    public static List<BigDecimal> values = new ArrayList<>();
     public static List<String> serials = new ArrayList<>();
     public static List<String> namesSorted = new ArrayList<>();
     public static List<String> serialsSorted = new ArrayList<>();
-    public static List<Double> valuesSorted = new ArrayList<>();
+    public static List<BigDecimal> valuesSorted = new ArrayList<>();
     public static List<String> remove = new ArrayList<>();
 
     // FXML controls to be accessed
@@ -50,15 +53,14 @@ public class FrontPageController {
     File openFile;
     String extension, forward;
     Scanner input;
-    Document doc;
-
+    String html;
 
     @FXML
     public ListView<String> ListViewName = new ListView<>();
     @FXML
     public ListView<String> ListViewSerial = new ListView<>();
     @FXML
-    public ListView<Double> ListViewValue = new ListView<>();
+    public ListView<BigDecimal> ListViewValue = new ListView<>();
     @FXML
     public TextField SearchBar = new TextField();
 
@@ -103,7 +105,7 @@ public class FrontPageController {
         }
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll((valuesSorted));
+        ListViewValue.getItems().addAll(valuesSorted);
     }
 
     // Sorts list by name and prints
@@ -131,7 +133,7 @@ public class FrontPageController {
 
         ListViewName.getItems().addAll(namesSorted);
         ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll((valuesSorted));
+        ListViewValue.getItems().addAll(valuesSorted);
     }
 
     // Sorts list by serial number and prints
@@ -208,9 +210,9 @@ public class FrontPageController {
 
             for (int x = 0; x < namesSorted.size(); x++) {
 
-                writer.write("<tr> <td>" + valuesSorted.get(x) + ";" + "</td>");
-                writer.write("<td>" + serialsSorted.get(x) +";" + "</td>");
-                writer.write("<td>" + namesSorted.get(x) +";" + "</td> </tr>");
+                writer.write("<tr> <td>" + valuesSorted.get(x) +"</td>");
+                writer.write("<td>" + serialsSorted.get(x) + "</td>");
+                writer.write("<td>" + namesSorted.get(x) + "</td> </tr>");
             }
 
             writer.write("</table> </body> </html>");
@@ -229,93 +231,27 @@ public class FrontPageController {
 
         if (loadFile.exists()) {
             char[] myFile = loadFile.getName().toCharArray();
+
             for (int i = loadFile.getName().length() - 1; i >= 0; i--) {
 
                 if (myFile[i] == '.') {
                     stop = i;
                     break;
                 }
-
             }
 
             for (int j = stop; j < myFile.length; j++)
                 extension += myFile[j];
 
             input = new Scanner(new File(loadFile.getAbsolutePath()));
-            String tags = "";
 
             // Read all file data for html file
 
-            if (extension.equals(".htm")) {
-                while (input.hasNext()) {
-
-                    tags += input.next();
-
-                }
-                doc = Jsoup.parse(tags);
-                String myText = doc.text();
-
-                char[] newText = new char[myText.length()];
-                newText = myText.toCharArray();
-
-                valuesSorted.clear();
-                values.clear();
-                namesSorted.clear();
-                names.clear();
-                serials.clear();
-                serialsSorted.clear();
-                int counter = 0;
-                String mySerial = "", myNames = "", myValue = "";
-                int h = 21;
-
-                // Adds html elements to user inventory
-
-                System.out.println(newText.length);
-                while (h < newText.length) {
-                    mySerial = "";
-                    myNames = "";
-                    myValue = "";
-
-
-                    while (newText[h] != ';') {
-                        myValue += newText[h];
-
-                        if (h == newText.length - 1)
-                            break;
-                            h++;
-                    }
-                    h++;
-                    valuesSorted.add(counter, Double.parseDouble(myValue));
-                    values.add(counter, Double.parseDouble(myValue));
-
-                    while (newText[h] != ';') {
-                        mySerial += newText[h];
-                        h++;
-                    }
-                    h++;
-                    serialsSorted.add(counter, mySerial);
-                    serials.add(counter, mySerial);
-
-                    while (newText[h] != ';') {
-                        myNames += newText[h];
-                        h++;
-                    }
-
-                    h++;
-
-                    namesSorted.add(counter, myNames);
-                    names.add(counter, myNames);
-                    if (h == newText.length)
-                        break;
-
-                    counter++;
-                }
-            } else if (extension.equals(".txt")) {
+            if (extension.equals(".txt")) {
 
                 for (int i = 0; i < 4; i++)
                     input.next();
 
-                int myCount = 0;
                 valuesSorted.clear();
                 values.clear();
                 namesSorted.clear();
@@ -329,14 +265,28 @@ public class FrontPageController {
                     serial = input.next();
                     name = input.next();
 
-                    values.add(Double.parseDouble(value));
-                    valuesSorted.add(Double.parseDouble(value));
+                    values.add(BigDecimal.valueOf(Double.parseDouble(value)));
+                    valuesSorted.add(BigDecimal.valueOf(Double.parseDouble(value)));
                     serials.add(serial);
                     serialsSorted.add(serial);
                     names.add(name);
                     namesSorted.add(name);
                 }
 
+            }
+
+            else if (extension.equals(".htm")) {
+                Scanner htm = new Scanner(System.in);
+                String myHTM = "";
+
+                while (input.hasNext()) {
+                    myHTM += input.next();
+                }
+                System.out.println(myHTM);
+                Document doc = Jsoup.parse(myHTM);
+
+                Element ele = doc.select("html").first();
+                System.out.println(ele.text());
             }
         }
     }
@@ -396,25 +346,73 @@ public class FrontPageController {
     }
 
     public void PopulateSearch() {
-        SearchBar.setText("SEARCH by Name or Serial Number (Case Sensitive)");
-    }
-
-    public void Searched() {
+        String search = SearchBar.getText();
+        int count = 0;
+        ListViewValue.getItems().clear();
+        ListViewSerial.getItems().clear();
+        ListViewName.getItems().clear();
         ItemsFound.getItems().clear();
         for (int i = 0; i < namesSorted.size(); i++) {
+            count = 0;
             MenuItem item = new MenuItem();
             MenuItem element = new MenuItem();
 
-            if (namesSorted.get(i).contains(SearchBar.getText())) {
+            if (namesSorted.get(i).contains(search)) {
 
                 item.setText("Name: " + namesSorted.get(i));
-                ItemsFound.getItems().add(item);
+                //ItemsFound.getItems().add(item);
+                ListViewName.getItems().add(namesSorted.get(i));
+                ListViewSerial.getItems().add(serialsSorted.get(i));
+                ListViewValue.getItems().add(valuesSorted.get(i));
+                count = 1;
             }
 
-            if (serialsSorted.get(i).contains(SearchBar.getText())) {
+            if (serialsSorted.get(i).contains(search)) {
                 element.setText("Serial: " + serialsSorted.get(i));
-                ItemsFound.getItems().add(element);
+                //ItemsFound.getItems().add(element);
+
+                if (count != 1) {
+                    ListViewName.getItems().add(namesSorted.get(i));
+                    ListViewSerial.getItems().add(serialsSorted.get(i));
+                    ListViewValue.getItems().add(valuesSorted.get(i));
+                }
             }
         }
     }
+        public void Searched () {
+            String search = SearchBar.getText();
+            int count = 0;
+            ListViewValue.getItems().clear();
+            ListViewSerial.getItems().clear();
+            ListViewName.getItems().clear();
+            ItemsFound.getItems().clear();
+            for (int i = 0; i < namesSorted.size(); i++) {
+                count = 0;
+                MenuItem item = new MenuItem();
+                MenuItem element = new MenuItem();
+
+                if (namesSorted.get(i).contains(search)) {
+
+                    item.setText("Name: " + namesSorted.get(i));
+                    //ItemsFound.getItems().add(item);
+                    ListViewName.getItems().add(namesSorted.get(i));
+                    ListViewSerial.getItems().add(serialsSorted.get(i));
+                    ListViewValue.getItems().add(valuesSorted.get(i));
+                    count = 1;
+                }
+
+                if (serialsSorted.get(i).contains(search)) {
+                    element.setText("Serial: " + serialsSorted.get(i));
+                    //ItemsFound.getItems().add(element);
+
+                    if (count != 1) {
+                        ListViewName.getItems().add(namesSorted.get(i));
+                        ListViewSerial.getItems().add(serialsSorted.get(i));
+                        ListViewValue.getItems().add(valuesSorted.get(i));
+                    }
+                }
+            }
+        }
+
+
 }

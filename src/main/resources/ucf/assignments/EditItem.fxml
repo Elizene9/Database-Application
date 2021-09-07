@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" onMouseMoved="#SetItems" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.EditItemController">
+<AnchorPane onMouseMoved="#ViewAllItems" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.EditItemController">
     <children>
         <Button fx:id="EditButton" layoutX="222.0" layoutY="324.0" mnemonicParsing="false" onAction="#EditPressed" prefHeight="62.0" prefWidth="156.0" text="EDIT ITEM">
             <font>
@@ -24,6 +27,6 @@
                 <Font size="24.0" />
             </font>
         </Button>
-      <SplitMenuButton fx:id="AllItems" layoutX="15.0" layoutY="61.0" mnemonicParsing="false" onAction="#ViewAllItems" text="Select Item to Edit Here" />
+      <SplitMenuButton fx:id="AllItems" layoutX="15.0" layoutY="61.0" mnemonicParsing="false" onAction="#SetBoxItems" onMouseMoved="#SetBoxItems" text="Select Item to Edit Here" />
     </children>
 </AnchorPane>
