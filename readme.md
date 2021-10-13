@@ -1,9 +1,10 @@
 **To begin press options to start adding items to the inventory**
+
 The options menu will have several functions:
 
-First there is the add item MenuItem which will open a new
-window when selected. This window will have three textfields;
-one to add the name, one to add a serial number, and one to add a
+First there is the add item option which allows you to add items to database.
+
+This window will have three textfields; one to add the name, one to add a serial number, and one to add a
 value. Your value must be a valid numerical value; your
 name must be between 2 and 256 characters long inclusive; and
 your serial number must be ten characters long with only
@@ -11,6 +12,7 @@ numbers and letters. Upon typing each item's info press enter
 to temporarily save that info. Once you have created all
 the item information, press the add button to add the item.
 The item will not save unless the add button is pressed.
+
 Press done to exit this window and choose another option.
 
 Editing items works similarly to the adding of items; a

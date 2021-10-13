@@ -5,7 +5,6 @@
 
 package ucf.assignments;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
@@ -53,7 +52,6 @@ public class FrontPageController {
     File openFile;
     String extension, forward;
     Scanner input;
-    String html;
 
     @FXML
     public ListView<String> ListViewName = new ListView<>();
@@ -219,7 +217,6 @@ public class FrontPageController {
             writer.close();
         }
 
-        ext = "";
     }
 
     // Opens load window
@@ -286,7 +283,6 @@ public class FrontPageController {
                 Document doc = Jsoup.parse(myHTM);
 
                 Element ele = doc.select("html").first();
-                System.out.println(ele.text());
             }
         }
     }
@@ -347,7 +343,7 @@ public class FrontPageController {
 
     public void PopulateSearch() {
         String search = SearchBar.getText();
-        int count = 0;
+        int count;
         ListViewValue.getItems().clear();
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
@@ -381,7 +377,7 @@ public class FrontPageController {
     }
         public void Searched () {
             String search = SearchBar.getText();
-            int count = 0;
+            int count;
             ListViewValue.getItems().clear();
             ListViewSerial.getItems().clear();
             ListViewName.getItems().clear();

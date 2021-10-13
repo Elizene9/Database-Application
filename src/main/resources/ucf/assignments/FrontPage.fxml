@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="850.0" stylesheets="@myFirst.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.FrontPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.FrontPageController">
     <Button layoutX="14.0" layoutY="481.0" mnemonicParsing="false" onAction="#ExitPressed" prefHeight="102.0" prefWidth="243.0" text="EXIT" textFill="#f50000">
         <font>
           <Font size="48.0" />
@@ -40,22 +41,22 @@
     <ListView fx:id="ListViewName" editable="true" layoutX="432.0" layoutY="243.0" prefHeight="225.0" prefWidth="209.0" />
     <SplitMenuButton fx:id="OptionsMenu" layoutX="303.0" layoutY="123.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="191.0" text="OPTIONS" textAlignment="CENTER">
       <items>
-          <MenuItem fx:id="Add" mnemonicParsing="false" onAction="#AddItemPressed" text="Add an Item" />
-          <MenuItem fx:id="Remove" mnemonicParsing="false" onAction="#ShowListItems" text="Remove an Item" />
-          <MenuItem fx:id="Edit" mnemonicParsing="false" onAction="#EditItemPressed" text="Edit an Item" />
-          <MenuItem fx:id="SortByValue" mnemonicParsing="false" onAction="#SortValuePressed" text="Sort by Value" />
-          <MenuItem fx:id="SortByName" mnemonicParsing="false" onAction="#SortName" text="Sort by Name" />
-          <MenuItem fx:id="SortBySerial" mnemonicParsing="false" onAction="#SortSerial" text="Sort by Serial Number" />
-          <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#SavePressed" text="Save List" />
-          <MenuItem fx:id="Load" mnemonicParsing="false" onAction="#LoadPressed" text="Load List" />
-         <MenuItem fx:id="OpenButton" mnemonicParsing="false" onAction="#OpenFilePressed" text="Open List File" />
+          <MenuItem mnemonicParsing="false" onAction="#AddItemPressed" text="Add an Item" />
+          <MenuItem mnemonicParsing="false" onAction="#ShowListItems" text="Remove an Item" />
+          <MenuItem mnemonicParsing="false" onAction="#EditItemPressed" text="Edit an Item" />
+          <MenuItem mnemonicParsing="false" onAction="#SortValuePressed" text="Sort by Value" />
+          <MenuItem mnemonicParsing="false" onAction="#SortName" text="Sort by Name" />
+          <MenuItem mnemonicParsing="false" onAction="#SortSerial" text="Sort by Serial Number" />
+          <MenuItem mnemonicParsing="false" onAction="#SavePressed" text="Save List" />
+          <MenuItem mnemonicParsing="false" onAction="#LoadPressed" text="Load List" />
+         <MenuItem mnemonicParsing="false" onAction="#OpenFilePressed" text="Open List File" />
       </items>
         <font>
           <Font size="24.0" />
         </font>
     </SplitMenuButton>
    <SplitMenuButton fx:id="AllItems" layoutX="640.0" layoutY="213.0" prefHeight="30.0" prefWidth="209.0" text="PERMANENTLY DELETE ITEM" />
-   <TextField fx:id="SearchBar" layoutX="548.0" layoutY="136.0" onAction="#Searched" onKeyTyped="#Searched" prefHeight="25.0" prefWidth="288.0" />
+   <TextField fx:id="SearchBar" layoutX="548.0" layoutY="149.0" onAction="#Searched" onKeyTyped="#Searched" prefHeight="25.0" prefWidth="288.0" />
    <SplitMenuButton fx:id="ItemsFound" layoutX="640.0" layoutY="243.0" mnemonicParsing="false" onAction="#PopulateSearch" prefHeight="30.0" prefWidth="209.0" text="      View Items Found" textAlignment="CENTER">
       <font>
          <Font size="14.0" />
@@ -66,5 +67,10 @@
          <Font size="33.0" />
       </font>
    </TextArea>
+   <Label layoutX="548.0" layoutY="124.0" prefHeight="25.0" prefWidth="288.0" text="Search for an item in the database">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
 
 </AnchorPane>
