@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.io.IOException;
+import java.util.Objects;
 
 // This class switches windows of the application when its methods are called
 public class ChangeScenes {
@@ -26,7 +27,7 @@ public class ChangeScenes {
     // Open fxml file passed in to this method
     public static void Change(ViewScenes view) throws IOException {
 
-        root = FXMLLoader.load(ChangeScenes.class.getResource(view.getFile()));
+        root = FXMLLoader.load(Objects.requireNonNull(ChangeScenes.class.getResource(view.getFile())));
         scene.setRoot(root);
     }
 

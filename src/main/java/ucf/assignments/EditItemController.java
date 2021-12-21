@@ -91,8 +91,8 @@ public class EditItemController {
         serialEntry = true;
 
         // Checks if serial number is already in use
-        for (int i = 0; i < FrontPageController.serials.size(); i++) {
-            if (EditSerial.getText().equals(FrontPageController.serials.get(i))) {
+        for (int i = 0; i < Inventory.allItems.size(); i++) {
+            if (EditSerial.getText().equals(Inventory.allItems.get(i).Serial)) {
                 serialCheck = false;
                 ShowItemStatus.setText("Error: This serial number already exists!");
             }
@@ -100,7 +100,6 @@ public class EditItemController {
 
         // Checks if serial number has characters other than letters and digits
         for (char c : serial) {
-
             if (!Character.isDigit(c) && !Character.isLetter(c)) {
                 serialCheck = false;
                 ShowItemStatus.setText("Error: Serial number contains invalid characters!");
@@ -125,9 +124,9 @@ public class EditItemController {
         // Get rid of any error items and exit window
         ShowItemStatus.setText("    Press add once you are finished adding the details of your item");
         FrontPageController.remove.clear();
-        for (int z = 0; z < FrontPageController.namesSorted.size(); z++) {
+        for (int z = 0; z < Inventory.allItems.size(); z++) {
 
-            FrontPageController.remove.add(FrontPageController.names.get(z) + ": " + FrontPageController.serials.get(z));
+            FrontPageController.remove.add(Inventory.allItems.get(z).name + ": " + Inventory.allItems.get(z).Serial);
         }
         AllItems.getItems().clear();
         AllItemsControl = 0;
@@ -153,26 +152,20 @@ public class EditItemController {
 
         if (serialCheck && nameCheck && valueCheck && serialEdit && nameEdit && valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.serials.set(counter, EditSerial.getText());
-            FrontPageController.serialsSorted.set(sort, EditSerial.getText());
-            FrontPageController.names.set(counter, EditName.getText());
-            FrontPageController.namesSorted.set(sort, EditName.getText());
-            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
-            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            Inventory.allItems.get(counter).Serial = EditSerial.getText();
+            Inventory.allItems.get(counter).name = EditName.getText();
+            Inventory.allItems.get(counter).value = BigDecimal.valueOf(Double.parseDouble(EditValue.getText()));
         }
 
         else if (serialCheck && nameCheck && valueCheck && serialEdit && nameEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.serials.set(counter, EditSerial.getText());
-            FrontPageController.serialsSorted.set(sort, EditSerial.getText());
-            FrontPageController.names.set(counter, EditName.getText());
-            FrontPageController.namesSorted.set(sort, EditName.getText());
+            Inventory.allItems.get(counter).name = EditName.getText();
+            Inventory.allItems.get(counter).value = BigDecimal.valueOf(Double.parseDouble(EditValue.getText()));
         }
 
         else if (serialCheck && nameCheck && valueCheck && serialEdit && !valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.serials.set(counter, EditSerial.getText());
-            FrontPageController.serialsSorted.set(sort, EditSerial.getText());
+            Inventory.allItems.get(counter).Serial = EditSerial.getText();
         }
 
         else if (serialCheck && nameCheck && valueCheck && !serialEdit && !nameEdit && !valueEdit) {
@@ -181,29 +174,23 @@ public class EditItemController {
 
         else if (serialCheck && nameCheck && valueCheck && !serialEdit && nameEdit && valueEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
-            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
-            FrontPageController.names.set(counter, EditName.getText());
-            FrontPageController.namesSorted.set(sort, EditName.getText());
+            Inventory.allItems.get(counter).name = EditName.getText();
+            Inventory.allItems.get(counter).value = BigDecimal.valueOf(Double.parseDouble(EditValue.getText()));
         }
 
         else if (serialCheck && nameCheck && valueCheck && !serialEdit && nameEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.names.set(counter, EditName.getText());
-            FrontPageController.namesSorted.set(sort, EditName.getText());
+            Inventory.allItems.get(counter).name = EditName.getText();
         }
 
         else if (serialCheck && nameCheck && valueCheck && serialEdit) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.serials.set(counter, EditSerial.getText());
-            FrontPageController.serialsSorted.set(sort, EditSerial.getText());
-            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
-            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            Inventory.allItems.get(counter).Serial = EditSerial.getText();
+            Inventory.allItems.get(counter).value = BigDecimal.valueOf(Double.parseDouble(EditValue.getText()));
         }
         else if (serialCheck && nameCheck && valueCheck) {
             ShowItemStatus.setText("                    Item Edited");
-            FrontPageController.values.set(counter, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
-            FrontPageController.valuesSorted.set(sort, BigDecimal.valueOf(Double.parseDouble(EditValue.getText())));
+            Inventory.allItems.get(counter).value = BigDecimal.valueOf(Double.parseDouble(EditValue.getText()));
         }
 
         // Display error message if user tries to add item with invalid input
@@ -216,7 +203,7 @@ public class EditItemController {
         }
 
         if (AllItemsControl == 0)
-            FrontPageController.remove.add(FrontPageController.namesSorted.get(counter) + ": " + FrontPageController.serialsSorted.get(counter));
+            FrontPageController.remove.add(Inventory.allItems.get(counter).name + ": " + Inventory.allItems.get(counter).Serial);
 
         serialEntry = false;
         nameEntry = false;
@@ -228,12 +215,12 @@ public class EditItemController {
 
         if (AllItemsControl == 0) {
             AllItems.getItems().clear();
-            int length = FrontPageController.namesSorted.size();
+            int length = Inventory.allItems.size();
 
             for (int x = 0; x < length; x++) {
                 MenuItem elements = new MenuItem();
                 int edited = x;
-                elements.setText(FrontPageController.namesSorted.get(x) + ": " + FrontPageController.serialsSorted.get(x));
+                elements.setText(Inventory.allItems.get(counter).name + ": " + Inventory.allItems.get(counter).Serial);
                 elements.setOnAction((event -> {
 
                     counter = edited;

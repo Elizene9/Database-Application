@@ -37,12 +37,9 @@ public class AddItemController {
         // Add item to list if all booleans are true and valid data has been entered
         if (serialCheck && nameCheck && valueCheck && serialEntry && nameEntry && valueEntry) {
 
-            FrontPageController.serials.add(ItemSerial.getText());
-            FrontPageController.serialsSorted.add(ItemSerial.getText());
-            FrontPageController.names.add(ItemName.getText());
-            FrontPageController.namesSorted.add(ItemName.getText());
-            FrontPageController.values.add(BigDecimal.valueOf(Double.parseDouble(ItemValue.getText())));
-            FrontPageController.valuesSorted.add(BigDecimal.valueOf(Double.parseDouble(ItemValue.getText())));
+            Items item = new Items(ItemName.getText(), BigDecimal.valueOf(Double.parseDouble(ItemValue.getText())),
+                    ItemSerial.getText());
+            Inventory.allItems.add(item);
 
             serialEntry = false;
             nameEntry = false;
@@ -115,8 +112,8 @@ public class AddItemController {
         serial = ItemSerial.getText().toCharArray();
 
         // Checks if serial number is already in use
-        for (int i = 0; i < FrontPageController.serials.size(); i++) {
-            if (ItemSerial.getText().equals(FrontPageController.serials.get(i)) || ItemSerial.getText().equals(FrontPageController.serials.get(i).toLowerCase())) {
+        for (int i = 0; i < Inventory.allItems.size(); i++) {
+            if (ItemSerial.getText().equalsIgnoreCase(Inventory.allItems.get(i).Serial)) {
                 serialCheck = false;
                 ShowItemStatus.setText("Error: This serial number already exists!");
             }
@@ -153,9 +150,9 @@ public class AddItemController {
         // Get rid of any error items and exit window
         ShowItemStatus.setText("    Press add once you are finished adding the details of your item");
         FrontPageController.remove.clear();
-        for (int z = 0; z < FrontPageController.namesSorted.size(); z++) {
+        for (int z = 0; z < Inventory.allItems.size(); z++) {
 
-            FrontPageController.remove.add(FrontPageController.names.get(z) + ": " + FrontPageController.serials.get(z));
+            FrontPageController.remove.add(Inventory.allItems.get(z).name + ": " + Inventory.allItems.get(z).Serial);
         }
         Stage stage = (Stage) DoneButton.getScene().getWindow();
         stage.close();

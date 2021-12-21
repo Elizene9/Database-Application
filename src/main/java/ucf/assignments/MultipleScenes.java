@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Objects;
 
 // This class loads another scene simultaneously to another
 public class MultipleScenes {
@@ -18,7 +19,7 @@ public class MultipleScenes {
     MultipleScenes(ViewScenes name) throws IOException {
 
         Stage sub = new Stage();
-        Parent root = FXMLLoader.load(ChangeScenes.class.getResource(name.getFile()));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(ChangeScenes.class.getResource(name.getFile())));
         Scene scene = new Scene(root);
         sub.setScene(scene);
         sub.show();

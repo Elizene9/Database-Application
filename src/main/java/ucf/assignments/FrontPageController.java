@@ -11,9 +11,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.awt.*;
 import java.io.File;
@@ -27,12 +24,6 @@ import java.util.List;
 public class FrontPageController {
 
     // Lists and sorted lists to store items
-    public static List<String> names = new ArrayList<>();
-    public static List<BigDecimal> values = new ArrayList<>();
-    public static List<String> serials = new ArrayList<>();
-    public static List<String> namesSorted = new ArrayList<>();
-    public static List<String> serialsSorted = new ArrayList<>();
-    public static List<BigDecimal> valuesSorted = new ArrayList<>();
     public static List<String> remove = new ArrayList<>();
 
     // FXML controls to be accessed
@@ -70,7 +61,6 @@ public class FrontPageController {
     // Load new add item window when pressed
     public void AddItemPressed() throws IOException {
         new MultipleScenes(ViewScenes.AddItem);
-
     }
 
     // Load new edit item window when pressed
@@ -79,88 +69,59 @@ public class FrontPageController {
     }
 
     // Sorts list by value and prints it
+    @SuppressWarnings("DuplicatedCode")
     public void SortValuePressed() {
         ListViewValue.getItems().clear();
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
 
-        int[] index = new int[valuesSorted.size()];
+        Inventory.sortValue();
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewName.getItems().add(Inventory.allItems.get(i).name);
 
-        Collections.sort(valuesSorted);
-        for (int i = 0; i < valuesSorted.size(); i++) {
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
 
-            for (int p = 0; p < valuesSorted.size(); p++) {
-
-                if (valuesSorted.get(i).equals(values.get(p)))
-                    index[i] = p;
-
-            }
-        }
-        for (int x = 0; x < values.size(); x++) {
-
-            namesSorted.set(x, names.get(index[x]));
-            serialsSorted.set(x, serials.get(index[x]));
-        }
-        ListViewName.getItems().addAll(namesSorted);
-        ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll(valuesSorted);
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewValue.getItems().add(Inventory.allItems.get(i).value);
     }
 
     // Sorts list by name and prints
+    @SuppressWarnings("DuplicatedCode")
     public void SortName() {
+
         ListViewValue.getItems().clear();
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
 
-        int[] index = new int[namesSorted.size()];
+        Inventory.sortName();
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewName.getItems().add(Inventory.allItems.get(i).name);
 
-        Collections.sort(namesSorted);
-        for (int i = 0; i < namesSorted.size(); i++) {
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
 
-            for (int p = 0; p < namesSorted.size(); p++) {
-
-                if (namesSorted.get(i).equals(names.get(p)))
-                    index[i] = p;
-
-            }
-        }
-        for (int x = 0; x < names.size(); x++) {
-            valuesSorted.set(x, values.get(index[x]));
-            serialsSorted.set(x, serials.get(index[x]));
-        }
-
-        ListViewName.getItems().addAll(namesSorted);
-        ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll(valuesSorted);
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewValue.getItems().add(Inventory.allItems.get(i).value);
     }
 
     // Sorts list by serial number and prints
+    @SuppressWarnings("DuplicatedCode")
     public void SortSerial() {
+
         ListViewValue.getItems().clear();
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
 
-        int[] index = new int[serialsSorted.size()];
+        Inventory.sortSerial();
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewName.getItems().add(Inventory.allItems.get(i).name);
 
-        Collections.sort(serialsSorted);
-        for (int i = 0; i < serialsSorted.size(); i++) {
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
 
-            for (int p = 0; p < serialsSorted.size(); p++) {
-
-                if (serialsSorted.get(i).equals(serials.get(p)))
-                    index[i] = p;
-
-            }
-        }
-        for (int x = 0; x < serials.size(); x++) {
-
-            namesSorted.set(x, names.get(index[x]));
-            valuesSorted.set(x, values.get(index[x]));
-        }
-
-        ListViewName.getItems().addAll(namesSorted);
-        ListViewSerial.getItems().addAll(serialsSorted);
-        ListViewValue.getItems().addAll(valuesSorted);
+        for (int i = 0; i < Inventory.allItems.size(); i++)
+            ListViewValue.getItems().add(Inventory.allItems.get(i).value);
     }
 
     // Opens save window
@@ -194,10 +155,11 @@ public class FrontPageController {
         if (ext.equals("txt")) {
             writer.println("Value\tSerial Number\tName\n");
 
-            for (int i = 0; i < namesSorted.size(); i++)
-                writer.write(valuesSorted.get(i) + "\t" + serialsSorted.get(i) + "\t" + namesSorted.get(i) + "\n");
+            for (int i = 0; i < Inventory.allItems.size(); i++)
+                writer.write(Inventory.allItems.get(i).value +
+                        "\t" + Inventory.allItems.get(i).Serial + "\t" +
+                        Inventory.allItems.get(i).name + "\n");
 
-            writer.close();
         }
 
         // Out to html file if user chooses .htm extension
@@ -206,16 +168,16 @@ public class FrontPageController {
             // Creates table format with 3 columns
             writer.write("<html><body><table border = \"2\"><tr><th>Value</th> <th>Serial Number</th><th>Name</th> </tr>");
 
-            for (int x = 0; x < namesSorted.size(); x++) {
+            for (int x = 0; x < Inventory.allItems.size(); x++) {
 
-                writer.write("<tr> <td>" + valuesSorted.get(x) +"</td>");
-                writer.write("<td>" + serialsSorted.get(x) + "</td>");
-                writer.write("<td>" + namesSorted.get(x) + "</td> </tr>");
+                writer.write("<tr> <td>" + Inventory.allItems.get(x).value +"</td>");
+                writer.write("<td>" + Inventory.allItems.get(x).Serial + "</td>");
+                writer.write("<td>" + Inventory.allItems.get(x).name + "</td> </tr>");
             }
 
             writer.write("</table> </body> </html>");
-            writer.close();
         }
+        writer.close();
 
     }
 
@@ -242,48 +204,25 @@ public class FrontPageController {
 
             input = new Scanner(new File(loadFile.getAbsolutePath()));
 
-            // Read all file data for html file
 
             if (extension.equals(".txt")) {
 
                 for (int i = 0; i < 4; i++)
                     input.next();
 
-                valuesSorted.clear();
-                values.clear();
-                namesSorted.clear();
-                names.clear();
-                serials.clear();
-                serialsSorted.clear();
+                Inventory.allItems.clear();
                 String serial, name, value;
                 while (input.hasNext()) {
 
                     value = input.next();
                     serial = input.next();
                     name = input.next();
-
-                    values.add(BigDecimal.valueOf(Double.parseDouble(value)));
-                    valuesSorted.add(BigDecimal.valueOf(Double.parseDouble(value)));
-                    serials.add(serial);
-                    serialsSorted.add(serial);
-                    names.add(name);
-                    namesSorted.add(name);
+                    Items myItem = new Items(name, BigDecimal.valueOf(Double.parseDouble(value)), serial);
+                    Inventory.allItems.add(myItem);
                 }
 
             }
 
-            else if (extension.equals(".htm")) {
-                Scanner htm = new Scanner(System.in);
-                String myHTM = "";
-
-                while (input.hasNext()) {
-                    myHTM += input.next();
-                }
-                System.out.println(myHTM);
-                Document doc = Jsoup.parse(myHTM);
-
-                Element ele = doc.select("html").first();
-            }
         }
     }
 
@@ -292,8 +231,8 @@ public class FrontPageController {
         AllItems.getItems().clear();
         SortName();
         remove.clear();
-        for (int i = 0; i < namesSorted.size(); i++) {
-            remove.add(namesSorted.get(i) + ": " + serialsSorted.get(i));
+        for (int i = 0; i < Inventory.allItems.size(); i++) {
+            remove.add(Inventory.allItems.get(i).name + ": " + Inventory.allItems.get(i).Serial);
         }
 
         for (int j = 0; j < remove.size(); j++) {
@@ -308,24 +247,10 @@ public class FrontPageController {
 
                         if (element.getText().equals(remove.get(h))) {
                             k++;
-                            namesSorted.remove(h);
-                            serialsSorted.remove(h);
-                            valuesSorted.remove(h);
-                        }
-
-                        if (element.getText().equals(names.get(h) + ": " + serials.get(h))) {
-
-                            k++;
-                            names.remove(h);
-                            serials.remove(h);
-                            values.remove(h);
-                        }
-
-                        if (k == 2) {
+                            Inventory.allItems.remove(h);
                             remove.remove(h);
                             break;
                         }
-
                     }
                 }
             }));
@@ -348,29 +273,29 @@ public class FrontPageController {
         ListViewSerial.getItems().clear();
         ListViewName.getItems().clear();
         ItemsFound.getItems().clear();
-        for (int i = 0; i < namesSorted.size(); i++) {
+        for (int i = 0; i < Inventory.allItems.size(); i++) {
             count = 0;
             MenuItem item = new MenuItem();
             MenuItem element = new MenuItem();
 
-            if (namesSorted.get(i).contains(search)) {
+            if (Inventory.allItems.get(i).name.contains(search)) {
 
-                item.setText("Name: " + namesSorted.get(i));
+                item.setText("Name: " + Inventory.allItems.get(i).name);
                 //ItemsFound.getItems().add(item);
-                ListViewName.getItems().add(namesSorted.get(i));
-                ListViewSerial.getItems().add(serialsSorted.get(i));
-                ListViewValue.getItems().add(valuesSorted.get(i));
+                ListViewName.getItems().add(Inventory.allItems.get(i).name);
+                ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
+                ListViewValue.getItems().add(Inventory.allItems.get(i).value);
                 count = 1;
             }
 
-            if (serialsSorted.get(i).contains(search)) {
-                element.setText("Serial: " + serialsSorted.get(i));
+            if (Inventory.allItems.get(i).Serial.contains(search)) {
+                element.setText("Serial: " + Inventory.allItems.get(i).Serial);
                 //ItemsFound.getItems().add(element);
 
                 if (count != 1) {
-                    ListViewName.getItems().add(namesSorted.get(i));
-                    ListViewSerial.getItems().add(serialsSorted.get(i));
-                    ListViewValue.getItems().add(valuesSorted.get(i));
+                    ListViewName.getItems().add(Inventory.allItems.get(i).name);
+                    ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
+                    ListViewValue.getItems().add(Inventory.allItems.get(i).value);
                 }
             }
         }
@@ -382,29 +307,29 @@ public class FrontPageController {
             ListViewSerial.getItems().clear();
             ListViewName.getItems().clear();
             ItemsFound.getItems().clear();
-            for (int i = 0; i < namesSorted.size(); i++) {
+            for (int i = 0; i < Inventory.allItems.size(); i++) {
                 count = 0;
                 MenuItem item = new MenuItem();
                 MenuItem element = new MenuItem();
 
-                if (namesSorted.get(i).contains(search)) {
+                if (Inventory.allItems.get(i).name.contains(search)) {
 
-                    item.setText("Name: " + namesSorted.get(i));
+                    item.setText("Name: " + Inventory.allItems.get(i).name);
                     //ItemsFound.getItems().add(item);
-                    ListViewName.getItems().add(namesSorted.get(i));
-                    ListViewSerial.getItems().add(serialsSorted.get(i));
-                    ListViewValue.getItems().add(valuesSorted.get(i));
+                    ListViewName.getItems().add(Inventory.allItems.get(i).name);
+                    ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
+                    ListViewValue.getItems().add(Inventory.allItems.get(i).value);
                     count = 1;
                 }
 
-                if (serialsSorted.get(i).contains(search)) {
-                    element.setText("Serial: " + serialsSorted.get(i));
+                if (Inventory.allItems.get(i).Serial.contains(search)) {
+                    element.setText("Serial: " + Inventory.allItems.get(i).Serial);
                     //ItemsFound.getItems().add(element);
 
                     if (count != 1) {
-                        ListViewName.getItems().add(namesSorted.get(i));
-                        ListViewSerial.getItems().add(serialsSorted.get(i));
-                        ListViewValue.getItems().add(valuesSorted.get(i));
+                        ListViewName.getItems().add(Inventory.allItems.get(i).name);
+                        ListViewSerial.getItems().add(Inventory.allItems.get(i).Serial);
+                        ListViewValue.getItems().add(Inventory.allItems.get(i).value);
                     }
                 }
             }
