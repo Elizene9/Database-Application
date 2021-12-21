@@ -5,9 +5,9 @@
 
 package ucf.assignments;
 
-// This enum allows scene switching
-public enum ViewScenes {
-
+// This enum Stores Pages of the Application
+public enum ViewScenes
+{
     // Allows scenes to be switched upon access to this class
     FrontPage("FrontPage.fxml"),
     AddItem("AddItem.fxml"),
@@ -15,11 +15,13 @@ public enum ViewScenes {
 
     // Get file to be opened
     public String file;
-    ViewScenes(String file) {
+    ViewScenes(String file)
+    {
         this.file = file;
     }
 
-    public String getFile() {
+    public String getFile()
+    {
         return file;
     }
 }

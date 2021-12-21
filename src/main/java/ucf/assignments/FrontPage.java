@@ -11,14 +11,18 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.lang.*;
 
-public class FrontPage extends Application {
-
-    public static void main(String[] args) {
+// Start up application
+public class FrontPage extends Application
+{
+    public static void main(String[] args)
+    {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    // Load Front Page of Application
+    public void start(Stage primaryStage) throws Exception
+    {
         setUserAgentStylesheet(STYLESHEET_MODENA);
         // Create new scene
         var scene = new Scene(new Pane());
@@ -28,6 +32,5 @@ public class FrontPage extends Application {
         ChangeScenes.Change(ViewScenes.FrontPage);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 }

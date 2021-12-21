@@ -12,12 +12,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-// This class loads another scene simultaneously to another
-public class MultipleScenes {
-
+// This class allows multiple scenes to exist simultaneously
+public class MultipleScenes
+{
     // Gets filename from another class and loads that file on a "sub stage"
-    MultipleScenes(ViewScenes name) throws IOException {
-
+    MultipleScenes(ViewScenes name) throws IOException
+    {
         Stage sub = new Stage();
         Parent root = FXMLLoader.load(Objects.requireNonNull(ChangeScenes.class.getResource(name.getFile())));
         Scene scene = new Scene(root);

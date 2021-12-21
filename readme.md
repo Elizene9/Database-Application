@@ -51,7 +51,7 @@ it is permanently removed**
 
 To search for an item by name or by serial number,
 select the search field saying "SEARCH". Press enter
-to search for your item (Case sensitive). If the item
+to search for your item (Case insensitive). If the item
 is contained in your inventory you will see it in the view
 items dropdown under the permanently remove items dropdown.
 You can search part of a name or the full name.
